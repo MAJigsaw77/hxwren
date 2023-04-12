@@ -66,7 +66,6 @@ typedef WrenLoadModuleCompleteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, name
 // The result of a loadModuleFn call.
 // [source] is the source code for the module, or NULL if the module is not found.
 // [onComplete] an optional callback that will be called once Wren is done with the result.
-
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include("wren.hpp")
 @:keep
