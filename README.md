@@ -1,2 +1,2 @@
 # hxwren
-Haxe/hxcpp @:native bindings for Wren
+Haxe/hxcpp @:native bindings for [Wren](https://github.com/wren-lang/wren)
