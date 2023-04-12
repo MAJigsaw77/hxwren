@@ -196,18 +196,22 @@ extern class Wren
 	@:native("wrenGetSlotHandle")
 	static function GetSlotHandle(vm:cpp.RawPointer<WrenVM>, slot:Int):cpp.RawPointer<WrenHandle>;
 
+	// Stores the boolean [value] in [slot].
+	@:native("wrenSetSlotBool")
+	static function SetSlotBool(vm:cpp.RawPointer<WrenVM>, slot:Int, value:Bool):Void;
+
+	// Stores the array [length] of [bytes] in [slot].
+	//
+	// The bytes are copied to a new string within Wren's heap, so you can free
+	// memory used by them after this is called.
+	@:native("wrenSetSlotBytes")
+	static function SetSlotBytes(vm:cpp.RawPointer<WrenVM>, slot:Int, bytes:cpp.ConstCharStar, length:cpp.SizeT):Void;
+
+	// Stores the numeric [value] in [slot].
+	@:native("wrenSetSlotDouble")
+	static function SetSlotDouble(vm:cpp.RawPointer<WrenVM>, slot:Int, value:Float):Void;
+
 /*
-// Stores the boolean [value] in [slot].
-WREN_API void wrenSetSlotBool(WrenVM* vm, int slot, bool value);
-
-// Stores the array [length] of [bytes] in [slot].
-//
-// The bytes are copied to a new string within Wren's heap, so you can free
-// memory used by them after this is called.
-WREN_API void wrenSetSlotBytes(WrenVM* vm, int slot, const char* bytes, size_t length);
-
-// Stores the numeric [value] in [slot].
-WREN_API void wrenSetSlotDouble(WrenVM* vm, int slot, double value);
 
 // Creates a new instance of the foreign class stored in [classSlot] with [size]
 // bytes of raw storage and places the resulting object in [slot].
