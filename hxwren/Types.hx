@@ -1,4 +1,4 @@
-package hxdiscord_rpc;
+package hxwren;
 
 #if (!cpp && macro)
 #error 'Wren supports only C++ target.'
