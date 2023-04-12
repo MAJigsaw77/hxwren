@@ -4,18 +4,10 @@
 
 	<files id="haxe">
 		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/include" />
-		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/optional" />
-
-		<compilerflag value="-DWREN_OPT_META" if="WREN_OPT_META" />
-		<compilerflag value="-DDWREN_OPT_RANDOM" if="WREN_OPT_RANDOM" />
 	</files>
 
 	<files id="__main__">
 		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/include" />
-		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/optional" />
-
-		<compilerflag value="-DWREN_OPT_META" if="WREN_OPT_META" />
-		<compilerflag value="-DDWREN_OPT_RANDOM" if="WREN_OPT_RANDOM" />
 	</files>
 
 	<files id="wren">
@@ -33,8 +25,8 @@
 		<file name="${haxelib:hxwren}/project/wren/src/optional/wren_opt_meta.c" />
 		<file name="${haxelib:hxwren}/project/wren/src/optional/wren_opt_random.c" />
 
-		<compilerflag value="-DWREN_OPT_META" if="WREN_OPT_META" />
-		<compilerflag value="-DDWREN_OPT_RANDOM" if="WREN_OPT_RANDOM" />
+		<compilerflag value="-DWREN_DEBUG_DUMP_COMPILED_CODE" if="DWREN_DEBUG_DUMP_COMPILED_CODE" />
+		<compilerflag value="-DWREN_NAN_TAGGING" if="WREN_NAN_TAGGING" />
 	</files>
 
 	<target id="haxe">
