@@ -95,11 +95,11 @@ typedef WrenWriteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, text:cpp.ConstCha
 enum abstract WrenErrorType(Int) from Int to Int
 {
 	// A syntax or resolution error detected at compile time.
-	var WREN_ERROR_COMPILE = 0;
+	final WREN_ERROR_COMPILE = 0;
 	// The error message for a runtime error.
-	var WREN_ERROR_RUNTIME = 1;
+	final WREN_ERROR_RUNTIME = 1;
 	// One entry of a runtime error's stack trace.
-	var WREN_ERROR_STACK_TRACE = 2;
+	final WREN_ERROR_STACK_TRACE = 2;
 }
 
 // Reports an error to the user.
@@ -273,9 +273,9 @@ extern class WrenConfiguration
 
 enum abstract WrenInterpretResult(Int) from Int to Int
 {
-	var WREN_RESULT_SUCCESS = 0;
-	var WREN_RESULT_COMPILE_ERROR = 1;
-	var WREN_RESULT_RUNTIME_ERROR = 2;
+	final WREN_RESULT_SUCCESS = 0;
+	final WREN_RESULT_COMPILE_ERROR = 1;
+	final WREN_RESULT_RUNTIME_ERROR = 2;
 }
 
 // The type of an object stored in a slot.
@@ -284,14 +284,14 @@ enum abstract WrenInterpretResult(Int) from Int to Int
 // representation type.
 enum abstract WrenType(Int) from Int to Int
 {
-	var WREN_TYPE_BOOL = 0;
-	var WREN_TYPE_NUM = 1;
-	var WREN_TYPE_FOREIGN = 2;
-	var WREN_TYPE_LIST = 3;
-	var WREN_TYPE_MAP = 4;
-	var WREN_TYPE_NULL = 5;
-	var WREN_TYPE_STRING = 6;
+	final WREN_TYPE_BOOL = 0;
+	final WREN_TYPE_NUM = 1;
+	final WREN_TYPE_FOREIGN = 2;
+	final WREN_TYPE_LIST = 3;
+	final WREN_TYPE_MAP = 4;
+	final WREN_TYPE_NULL = 5;
+	final WREN_TYPE_STRING = 6;
 
 	// The object is of a type that isn't accessible by the C API.
-	var WREN_TYPE_UNKNOWN = 7;
+	final WREN_TYPE_UNKNOWN = 7;
 }
