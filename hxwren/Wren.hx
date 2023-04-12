@@ -3,6 +3,7 @@ package hxwren;
 #if (!cpp && macro)
 #error 'Wren supports only C++ target.'
 #end
+import hxwren.Types;
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include("wren.hpp")
