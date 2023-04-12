@@ -1,0 +1,24 @@
+name: Testing
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  Linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        with:
+          submodules: true
+
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.0
+
+      - name: Compiling 
+        run: |
+          haxelib git hxwren https://github.com/MAJigsaw77/hxwren.git --quiet
+          cd sample
+          haxe build.hxml
