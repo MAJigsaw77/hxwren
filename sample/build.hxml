@@ -1,0 +1,7 @@
+-cp ./
+-D analyzer-optimize
+-lib hxwren
+-main Main
+-cpp bin
+-cmd cp script.wren bin/script.wren
+-cmd bin/Main
