@@ -102,3 +102,191 @@ enum abstract WrenErrorType(Int) from Int to Int
 	// One entry of a runtime error's stack trace.
 	var WREN_ERROR_STACK_TRACE = 2;
 }
+
+// Reports an error to the user.
+//
+// An error detected during compile time is reported by calling this once with
+// [type] `WREN_ERROR_COMPILE`, the resolved name of the [module] and [line]
+// where the error occurs, and the compiler's error [message].
+//
+// A runtime error is reported by calling this once with [type]
+// `WREN_ERROR_RUNTIME`, no [module] or [line], and the runtime error's
+// [message]. After that, a series of [type] `WREN_ERROR_STACK_TRACE` calls are
+// made for each line in the stack trace. Each of those has the resolved
+// [module] and [line] where the method or function is defined and [message] is
+// the name of the method or function.
+typedef WrenErrorFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, type:WrenErrorType, module:cpp.ConstCharStar, line:Int, message:cpp.ConstCharStar) -> Void>;
+
+@:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
+@:include("wren.hpp")
+@:keep
+@:structAccess
+@:native("WrenForeignClassMethods")
+extern class WrenForeignClassMethods
+{
+	@:native('WrenForeignClassMethods')
+	static function create():WrenForeignClassMethods;
+
+	// The callback invoked when the foreign object is created.
+	//
+	// This must be provided. Inside the body of this, it must call
+	// [wrenSetSlotNewForeign()] exactly once.
+	var allocate:WrenForeignMethodFn;
+
+	// The callback invoked when the garbage collector is about to collect a
+	// foreign object's memory.
+	//
+	// This may be `NULL` if the foreign class does not need to finalize.
+	var finalize:WrenFinalizerFn;
+}
+
+/*
+// Returns a pair of pointers to the foreign methods used to allocate and
+// finalize the data for instances of [className] in resolved [module].
+typedef WrenBindForeignClassFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, className:cpp.ConstCharStar) -> WrenForeignClassMethods>;
+
+typedef struct
+{
+  // The callback Wren will use to allocate, reallocate, and deallocate memory.
+  //
+  // If `NULL`, defaults to a built-in function that uses `realloc` and `free`.
+  WrenReallocateFn reallocateFn;
+
+  // The callback Wren uses to resolve a module name.
+  //
+  // Some host applications may wish to support "relative" imports, where the
+  // meaning of an import string depends on the module that contains it. To
+  // support that without baking any policy into Wren itself, the VM gives the
+  // host a chance to resolve an import string.
+  //
+  // Before an import is loaded, it calls this, passing in the name of the
+  // module that contains the import and the import string. The host app can
+  // look at both of those and produce a new "canonical" string that uniquely
+  // identifies the module. This string is then used as the name of the module
+  // going forward. It is what is passed to [loadModuleFn], how duplicate
+  // imports of the same module are detected, and how the module is reported in
+  // stack traces.
+  //
+  // If you leave this function NULL, then the original import string is
+  // treated as the resolved string.
+  //
+  // If an import cannot be resolved by the embedder, it should return NULL and
+  // Wren will report that as a runtime error.
+  //
+  // Wren will take ownership of the string you return and free it for you, so
+  // it should be allocated using the same allocation function you provide
+  // above.
+  WrenResolveModuleFn resolveModuleFn;
+
+  // The callback Wren uses to load a module.
+  //
+  // Since Wren does not talk directly to the file system, it relies on the
+  // embedder to physically locate and read the source code for a module. The
+  // first time an import appears, Wren will call this and pass in the name of
+  // the module being imported. The method will return a result, which contains
+  // the source code for that module. Memory for the source is owned by the 
+  // host application, and can be freed using the onComplete callback.
+  //
+  // This will only be called once for any given module name. Wren caches the
+  // result internally so subsequent imports of the same module will use the
+  // previous source and not call this.
+  //
+  // If a module with the given name could not be found by the embedder, it
+  // should return NULL and Wren will report that as a runtime error.
+  WrenLoadModuleFn loadModuleFn;
+
+  // The callback Wren uses to find a foreign method and bind it to a class.
+  //
+  // When a foreign method is declared in a class, this will be called with the
+  // foreign method's module, class, and signature when the class body is
+  // executed. It should return a pointer to the foreign function that will be
+  // bound to that method.
+  //
+  // If the foreign function could not be found, this should return NULL and
+  // Wren will report it as runtime error.
+  WrenBindForeignMethodFn bindForeignMethodFn;
+
+  // The callback Wren uses to find a foreign class and get its foreign methods.
+  //
+  // When a foreign class is declared, this will be called with the class's
+  // module and name when the class body is executed. It should return the
+  // foreign functions uses to allocate and (optionally) finalize the bytes
+  // stored in the foreign object when an instance is created.
+  WrenBindForeignClassFn bindForeignClassFn;
+
+  // The callback Wren uses to display text when `System.print()` or the other
+  // related functions are called.
+  //
+  // If this is `NULL`, Wren discards any printed text.
+  WrenWriteFn writeFn;
+
+  // The callback Wren uses to report errors.
+  //
+  // When an error occurs, this will be called with the module name, line
+  // number, and an error message. If this is `NULL`, Wren doesn't report any
+  // errors.
+  WrenErrorFn errorFn;
+
+  // The number of bytes Wren will allocate before triggering the first garbage
+  // collection.
+  //
+  // If zero, defaults to 10MB.
+  size_t initialHeapSize;
+
+  // After a collection occurs, the threshold for the next collection is
+  // determined based on the number of bytes remaining in use. This allows Wren
+  // to shrink its memory usage automatically after reclaiming a large amount
+  // of memory.
+  //
+  // This can be used to ensure that the heap does not get too small, which can
+  // in turn lead to a large number of collections afterwards as the heap grows
+  // back to a usable size.
+  //
+  // If zero, defaults to 1MB.
+  size_t minHeapSize;
+
+  // Wren will resize the heap automatically as the number of bytes
+  // remaining in use after a collection changes. This number determines the
+  // amount of additional memory Wren will use after a collection, as a
+  // percentage of the current heap size.
+  //
+  // For example, say that this is 50. After a garbage collection, when there
+  // are 400 bytes of memory still in use, the next collection will be triggered
+  // after a total of 600 bytes are allocated (including the 400 already in
+  // use.)
+  //
+  // Setting this to a smaller number wastes less memory, but triggers more
+  // frequent garbage collections.
+  //
+  // If zero, defaults to 50.
+  int heapGrowthPercent;
+
+  // User-defined data associated with the VM.
+  void* userData;
+
+} WrenConfiguration; */
+
+enum abstract WrenInterpretResult(Int) from Int to Int
+{
+	var WREN_RESULT_SUCCESS = 0;
+	var WREN_RESULT_COMPILE_ERROR = 1;
+	var WREN_RESULT_RUNTIME_ERROR = 2;
+}
+
+// The type of an object stored in a slot.
+//
+// This is not necessarily the object's *class*, but instead its low level
+// representation type.
+enum abstract WrenType(Int) from Int to Int
+{
+	var WREN_TYPE_BOOL = 0;
+	var WREN_TYPE_NUM = 1;
+	var WREN_TYPE_FOREIGN = 2;
+	var WREN_TYPE_LIST = 3;
+	var WREN_TYPE_MAP = 4;
+	var WREN_TYPE_NULL = 5;
+	var WREN_TYPE_STRING = 6;
+
+	// The object is of a type that isn't accessible by the C API.
+	var WREN_TYPE_UNKNOWN = 7;
+}
