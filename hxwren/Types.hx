@@ -294,6 +294,7 @@ enum abstract WrenType(Int) from Int to Int
 	var WREN_TYPE_MAP = 4;
 	var WREN_TYPE_NULL = 5;
 	var WREN_TYPE_STRING = 6;
+
 	// The object is of a type that isn't accessible by the C API.
 	var WREN_TYPE_UNKNOWN = 7;
 }
