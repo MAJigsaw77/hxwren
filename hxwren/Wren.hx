@@ -86,11 +86,11 @@ extern class Wren
 	// After this returns, you can access the return value from slot 0 on the stack.
 	@:native("wrenCall")
 	static function Call(vm:cpp.RawPointer<WrenVM>, method:cpp.RawPointer<WrenHandle>):WrenInterpretResult;
-/*
 
-// Releases the reference stored in [handle]. After calling this, [handle] can
-// no longer be used.
-WREN_API void wrenReleaseHandle(WrenVM* vm, WrenHandle* handle);
+	// Releases the reference stored in [handle]. After calling this, [handle] can
+	// no longer be used.
+	@:native("wrenReleaseHandle")
+	static function ReleaseHandle(vm:cpp.RawPointer<WrenVM>, handle:cpp.RawPointer<WrenHandle>):Void;
 
 // The following functions are intended to be called from foreign methods or
 // finalizers. The interface Wren provides to a foreign method is like a
@@ -129,36 +129,43 @@ WREN_API void wrenReleaseHandle(WrenVM* vm, WrenHandle* handle);
 // unsafe language, so it's up to you to be careful to use it correctly. In
 // return, you get a very fast FFI.
 
-// Returns the number of slots available to the current foreign method.
-WREN_API int wrenGetSlotCount(WrenVM* vm);
+	// Returns the number of slots available to the current foreign method.
+	@:native("wrenGetSlotCount")
+	static function GetSlotCount(vm:cpp.RawPointer<WrenVM>):Int;
 
-// Ensures that the foreign method stack has at least [numSlots] available for
-// use, growing the stack if needed.
-//
-// Does not shrink the stack if it has more than enough slots.
-//
-// It is an error to call this from a finalizer.
-WREN_API void wrenEnsureSlots(WrenVM* vm, int numSlots);
+	// Ensures that the foreign method stack has at least [numSlots] available for
+	// use, growing the stack if needed.
+	//
+	// Does not shrink the stack if it has more than enough slots.
+	//
+	// It is an error to call this from a finalizer.
+	@:native("wrenEnsureSlots")
+	static function EnsureSlots(vm:cpp.RawPointer<WrenVM>, numSlots:Int):Void;
 
-// Gets the type of the object in [slot].
-WREN_API WrenType wrenGetSlotType(WrenVM* vm, int slot);
+	// Gets the type of the object in [slot].
+	@:native("wrenGetSlotType")
+	static function GetSlotType(vm:cpp.RawPointer<WrenVM>, slot:Int):WrenType;
 
-// Reads a boolean value from [slot].
-//
-// It is an error to call this if the slot does not contain a boolean value.
-WREN_API bool wrenGetSlotBool(WrenVM* vm, int slot);
+	// Reads a boolean value from [slot].
+	//
+	// It is an error to call this if the slot does not contain a boolean value.
+	@:native("wrenGetSlotBool")
+	static function GetSlotBool(vm:cpp.RawPointer<WrenVM>, slot:Int):Bool;
 
-// Reads a byte array from [slot].
-//
-// The memory for the returned string is owned by Wren. You can inspect it
-// while in your foreign method, but cannot keep a pointer to it after the
-// function returns, since the garbage collector may reclaim it.
-//
-// Returns a pointer to the first byte of the array and fill [length] with the
-// number of bytes in the array.
-//
-// It is an error to call this if the slot does not contain a string.
-WREN_API const char* wrenGetSlotBytes(WrenVM* vm, int slot, int* length);
+	// Reads a byte array from [slot].
+	//
+	// The memory for the returned string is owned by Wren. You can inspect it
+	// while in your foreign method, but cannot keep a pointer to it after the
+	// function returns, since the garbage collector may reclaim it.
+	//
+	// Returns a pointer to the first byte of the array and fill [length] with the
+	// number of bytes in the array.
+	//
+	// It is an error to call this if the slot does not contain a string.
+	@:native("wrenGetSlotBytes")
+	static function GetSlotBytes(vm:cpp.RawPointer<WrenVM>, slot:Int, length:cpp.Pointer<Int>):cpp.ConstCharStar;
+
+/*
 
 // Reads a number from [slot].
 //
