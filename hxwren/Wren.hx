@@ -58,21 +58,22 @@ extern class Wren
 	@:native("wrenCollectGarbage")
 	static function CollectGarbage(vm:cpp.RawPointer<WrenVM>):Void;
 
-/*
-// Runs [source], a string of Wren source code in a new fiber in [vm] in the
-// context of resolved [module].
-WREN_API WrenInterpretResult wrenInterpret(WrenVM* vm, const char* module,
-                                  const char* source);
+	// Runs [source], a string of Wren source code in a new fiber in [vm] in the
+	// context of resolved [module].
+	@:native("wrenInterpret")
+	static function Interpret(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, source:cpp.ConstCharStar):WrenInterpretResult;
 
-// Creates a handle that can be used to invoke a method with [signature] on
-// using a receiver and arguments that are set up on the stack.
-//
-// This handle can be used repeatedly to directly invoke that method from C
-// code using [wrenCall].
-//
-// When you are done with this handle, it must be released using
-// [wrenReleaseHandle].
-WREN_API WrenHandle* wrenMakeCallHandle(WrenVM* vm, const char* signature);
+	// Creates a handle that can be used to invoke a method with [signature] on
+	// using a receiver and arguments that are set up on the stack.
+	//
+	// This handle can be used repeatedly to directly invoke that method from C
+	// code using [wrenCall].
+	//
+	// When you are done with this handle, it must be released using
+	// [wrenReleaseHandle].
+	@:native("wrenMakeCallHandle")
+	static function MakeCallHandle(vm:cpp.RawPointer<WrenVM>, signature:cpp.ConstCharStar):cpp.RawPointer<WrenHandle>;
+/*
 
 // Calls [method], using the receiver and arguments previously set up on the
 // stack.
