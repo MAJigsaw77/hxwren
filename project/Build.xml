@@ -13,7 +13,6 @@
 	<files id="wren">
 		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/include" />
 		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/vm" />
-		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/optional" />
 
 		<file name="${haxelib:hxwren}/project/wren/src/vm/wren_compiler.c" />
 		<file name="${haxelib:hxwren}/project/wren/src/vm/wren_core.c" />
@@ -22,9 +21,8 @@
 		<file name="${haxelib:hxwren}/project/wren/src/vm/wren_utils.c" />
 		<file name="${haxelib:hxwren}/project/wren/src/vm/wren_value.c" />
 		<file name="${haxelib:hxwren}/project/wren/src/vm/wren_vm.c" />
-		<file name="${haxelib:hxwren}/project/wren/src/optional/wren_opt_meta.c" />
-		<file name="${haxelib:hxwren}/project/wren/src/optional/wren_opt_random.c" />
 
+		<compilerflag value="-DWREN_COMPUTED_GOTO" if="WREN_COMPUTED_GOTO" />
 		<compilerflag value="-DWREN_DEBUG_DUMP_COMPILED_CODE" if="WREN_DEBUG_DUMP_COMPILED_CODE" />
 		<compilerflag value="-DWREN_DEBUG_GC_STRESS" if="WREN_DEBUG_GC_STRESS" />
 		<compilerflag value="-DWREN_DEBUG_TRACE_INSTRUCTIONS" if="WREN_DEBUG_TRACE_INSTRUCTIONS" />
