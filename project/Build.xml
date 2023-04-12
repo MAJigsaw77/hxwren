@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+	<pragma once="true" />
+
+	<files id="haxe">
+		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/include" />
+	</files>
+
+	<files id="__main__">
+		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/include" />
+	</files>
+
+	<files id="wren">
+		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/include" />
+		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/vm" />
+	</files>
+
+	<target id="haxe">
+		<files id="wren" />
+	</target>
+</xml>
