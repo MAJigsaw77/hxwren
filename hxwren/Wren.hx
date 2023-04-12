@@ -73,19 +73,20 @@ extern class Wren
 	// [wrenReleaseHandle].
 	@:native("wrenMakeCallHandle")
 	static function MakeCallHandle(vm:cpp.RawPointer<WrenVM>, signature:cpp.ConstCharStar):cpp.RawPointer<WrenHandle>;
-/*
 
-// Calls [method], using the receiver and arguments previously set up on the
-// stack.
-//
-// [method] must have been created by a call to [wrenMakeCallHandle]. The
-// arguments to the method must be already on the stack. The receiver should be
-// in slot 0 with the remaining arguments following it, in order. It is an
-// error if the number of arguments provided does not match the method's
-// signature.
-//
-// After this returns, you can access the return value from slot 0 on the stack.
-WREN_API WrenInterpretResult wrenCall(WrenVM* vm, WrenHandle* method);
+	// Calls [method], using the receiver and arguments previously set up on the
+	// stack.
+	//
+	// [method] must have been created by a call to [wrenMakeCallHandle]. The
+	// arguments to the method must be already on the stack. The receiver should be
+	// in slot 0 with the remaining arguments following it, in order. It is an
+	// error if the number of arguments provided does not match the method's
+	// signature.
+	//
+	// After this returns, you can access the return value from slot 0 on the stack.
+	@:native("wrenCall")
+	static function Call(vm:cpp.RawPointer<WrenVM>, method:cpp.RawPointer<WrenHandle>):WrenInterpretResult;
+/*
 
 // Releases the reference stored in [handle]. After calling this, [handle] can
 // no longer be used.
