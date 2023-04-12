@@ -310,15 +310,17 @@ extern class Wren
 	// Returns true if [module] has been imported/resolved before, false if not.
 	@:native("wrenHasModule")
 	static function HasModule(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar):Bool;
-/*
-// Sets the current fiber to be aborted, and uses the value in [slot] as the
-// runtime error object.
-WREN_API void wrenAbortFiber(WrenVM* vm, int slot);
 
-// Returns the user data associated with the WrenVM.
-WREN_API void* wrenGetUserData(WrenVM* vm);
+	// Sets the current fiber to be aborted, and uses the value in [slot] as the
+	// runtime error object.
+	@:native("wrenAbortFiber")
+	static function AbortFiber(vm:cpp.RawPointer<WrenVM>, slot:Int):Void;
 
-// Sets user data associated with the WrenVM.
-WREN_API void wrenSetUserData(WrenVM* vm, void* userData);
-*/
+	// Returns the user data associated with the WrenVM.
+	@:native("wrenGetUserData")
+	static function GetUserData(vm:cpp.RawPointer<WrenVM>):cpp.Pointer<cpp.Void>;
+
+	// Sets user data associated with the WrenVM.
+	@:native("wrenSetUserData")
+	static function SetUserData(vm:cpp.RawPointer<WrenVM>, userData:cpp.Pointer<cpp.Void>):Void;
 }
