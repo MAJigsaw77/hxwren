@@ -12,8 +12,11 @@
 
 	<files id="wren">
 		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/include" />
+		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/optional" />
 		<compilerflag value="-I${haxelib:hxwren}/project/wren/src/vm" />
 
+		<file name="${haxelib:hxwren}/project/wren/src/optional/wren_opt_meta.c" />
+		<file name="${haxelib:hxwren}/project/wren/src/optional/wren_opt_random.c" />
 		<file name="${haxelib:hxwren}/project/wren/src/vm/wren_compiler.c" />
 		<file name="${haxelib:hxwren}/project/wren/src/vm/wren_core.c" />
 		<file name="${haxelib:hxwren}/project/wren/src/vm/wren_debug.c" />
