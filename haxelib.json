@@ -1,0 +1,19 @@
+{
+	"name":"hxwren",
+	"url":"https://github.com/MAJigsaw77/hxwren",
+	"license":"MIT",
+	"tags":[
+		"wren",
+		"cpp",
+		"haxe"
+	],
+	"description":"Haxe/hxcpp @:native bindings for Wren.",
+	"version":"1.0.0",
+	"releasenote":"First Release.",
+	"contributors":[
+		"MAJigsaw77"
+	],
+	"dependencies":{
+		"hxcpp":""
+	}
+}
