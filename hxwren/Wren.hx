@@ -47,7 +47,7 @@ extern class Wren
 	// freed after calling this. If [configuration] is `NULL`, uses a default
 	// configuration.
 	@:native("wrenNewVM")
-	static function NewVM(configuration:cpp.RawPointer<WrenConfiguration>):Void;
+	static function NewVM(configuration:cpp.RawPointer<WrenConfiguration>):cpp.RawPointer<WrenVM>;
 
 	// Disposes of all resources is use by [vm], which was previously created by a
 	// call to [wrenNewVM].
@@ -56,7 +56,7 @@ extern class Wren
 
 	// Immediately run the garbage collector to free unused memory.
 	@:native("wrenCollectGarbage")
-	static function NewVM(vm:cpp.RawPointer<WrenVM>):Void;
+	static function CollectGarbage(vm:cpp.RawPointer<WrenVM>):Void;
 
 /*
 // Runs [source], a string of Wren source code in a new fiber in [vm] in the
