@@ -47,6 +47,6 @@ class Main
 				Sys.println('Success!');
 		}
 
-		Wren.FreeVM(VM);
+		Wren.FreeVM(vm);
 	}
 }
