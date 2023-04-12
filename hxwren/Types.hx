@@ -140,12 +140,11 @@ extern class WrenForeignClassMethods
 	var finalize:WrenFinalizerFn;
 }
 
-/*
 // Returns a pair of pointers to the foreign methods used to allocate and
 // finalize the data for instances of [className] in resolved [module].
 typedef WrenBindForeignClassFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, className:cpp.ConstCharStar) -> WrenForeignClassMethods>;
 
-typedef struct
+/*typedef struct
 {
   // The callback Wren will use to allocate, reallocate, and deallocate memory.
   //
