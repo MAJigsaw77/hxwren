@@ -95,11 +95,11 @@ typedef WrenWriteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, text:cpp.ConstCha
 enum WrenErrorType
 {
 	// A syntax or resolution error detected at compile time.
-	WREN_ERROR_COMPILE,
+	WREN_ERROR_COMPILE;
 	// The error message for a runtime error.
-	WREN_ERROR_RUNTIME,
+	WREN_ERROR_RUNTIME;
 	// One entry of a runtime error's stack trace.
-	WREN_ERROR_STACK_TRACE
+	WREN_ERROR_STACK_TRACE;
 }
 
 // Reports an error to the user.
@@ -273,9 +273,9 @@ extern class WrenConfiguration
 
 enum WrenInterpretResult
 {
-	WREN_RESULT_SUCCESS,
-	WREN_RESULT_COMPILE_ERROR,
-	WREN_RESULT_RUNTIME_ERROR
+	WREN_RESULT_SUCCESS;
+	WREN_RESULT_COMPILE_ERROR;
+	WREN_RESULT_RUNTIME_ERROR;
 }
 
 // The type of an object stored in a slot.
@@ -284,14 +284,14 @@ enum WrenInterpretResult
 // representation type.
 enum WrenType
 {
-	WREN_TYPE_BOOL,
-	WREN_TYPE_NUM,
-	WREN_TYPE_FOREIGN,
-	WREN_TYPE_LIST,
-	WREN_TYPE_MAP,
-	WREN_TYPE_NULL,
-	WREN_TYPE_STRING,
+	WREN_TYPE_BOOL;
+	WREN_TYPE_NUM;
+	WREN_TYPE_FOREIGN;
+	WREN_TYPE_LIST;
+	WREN_TYPE_MAP;
+	WREN_TYPE_NULL;
+	WREN_TYPE_STRING;
 
 	// The object is of a type that isn't accessible by the C API.
-	WREN_TYPE_UNKNOWN
+	WREN_TYPE_UNKNOWN;
 }
