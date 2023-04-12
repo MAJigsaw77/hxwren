@@ -58,3 +58,47 @@ typedef WrenFinalizerFn = cpp.Callable<(data:cpp.Pointer<cpp.Void>) -> Void>;
 // that contains the import. Typically, this is used to implement relative
 // imports.
 typedef WrenResolveModuleFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, importer:cpp.ConstCharStar, name:cpp.ConstCharStar) -> cpp.ConstCharStar>;
+
+// Called after loadModuleFn is called for module [name]. The original returned result
+// is handed back to you in this callback, so that you can free memory if appropriate.
+typedef WrenLoadModuleCompleteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, name:cpp.ConstCharStar, result:WrenLoadModuleResult) -> Void>;
+
+// The result of a loadModuleFn call. 
+// [source] is the source code for the module, or NULL if the module is not found.
+// [onComplete] an optional callback that will be called once Wren is done with the result.
+@:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
+@:include("wren.hpp")
+@:keep
+@:structAccess
+@:native("WrenLoadModuleResult")
+extern class WrenLoadModuleResult
+{
+	@:native('WrenLoadModuleResult')
+	static function create():WrenLoadModuleResult;
+
+	var source:cpp.ConstCharStar;
+	var onComplete:WrenLoadModuleCompleteFn;
+	var userData:cpp.Pointer<cpp.Void>;
+}
+
+// Loads and returns the source code for the module [name].
+typedef WrenLoadModuleFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, name:cpp.ConstCharStar) -> WrenLoadModuleResult>;
+
+// Returns a pointer to a foreign method on [className] in [module] with
+// [signature].
+typedef WrenBindForeignMethodFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, className:cpp.ConstCharStar, isStatic:Bool, signature:cpp.ConstCharStar) -> WrenForeignMethodFn>;
+
+// Displays a string of text to the user.
+typedef WrenWriteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, text:cpp.ConstCharStar) -> Void>;
+
+enum abstract WrenErrorType(Int) from Int to Int
+{
+	// A syntax or resolution error detected at compile time.
+	var WREN_ERROR_COMPILE = 0;
+
+	// The error message for a runtime error.
+	var WREN_ERROR_RUNTIME = 1;
+
+	// One entry of a runtime error's stack trace.
+	var WREN_ERROR_STACK_TRACE = 2;
+}
