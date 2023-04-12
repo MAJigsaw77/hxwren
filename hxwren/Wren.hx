@@ -254,25 +254,29 @@ extern class Wren
 	@:native("wrenGetListCount")
 	static function GetListCount(vm:cpp.RawPointer<WrenVM>, slot:Int):Int;
 
+	// Reads element [index] from the list in [listSlot] and stores it in
+	// [elementSlot].
+	@:native("wrenGetListElement")
+	static function GetListElement(vm:cpp.RawPointer<WrenVM>, listSlot:Int, index:Int, elementSlot:Int):Void;
+
+	// Sets the value stored at [index] in the list at [listSlot], 
+	// to the value from [elementSlot]. 
+	@:native("wrenSetListElement")
+	static function SetListElement(vm:cpp.RawPointer<WrenVM>, listSlot:Int, index:Int, elementSlot:Int):Void;
+
+	// Takes the value stored at [elementSlot] and inserts it into the list stored
+	// at [listSlot] at [index].
+	//
+	// As in Wren, negative indexes can be used to insert from the end. To append
+	// an element, use `-1` for the index.
+	@:native("wrenInsertInList")
+	static function InsertInList(vm:cpp.RawPointer<WrenVM>, listSlot:Int, index:Int, elementSlot:Int):Void;
+
+	// Returns the number of entries in the map stored in [slot].
+	@:native("wrenGetMapCount")
+	static function GetMapCount(vm:cpp.RawPointer<WrenVM>, slot:Int):Int;
+
 /*
-
-// Reads element [index] from the list in [listSlot] and stores it in
-// [elementSlot].
-WREN_API void wrenGetListElement(WrenVM* vm, int listSlot, int index, int elementSlot);
-
-// Sets the value stored at [index] in the list at [listSlot], 
-// to the value from [elementSlot]. 
-WREN_API void wrenSetListElement(WrenVM* vm, int listSlot, int index, int elementSlot);
-
-// Takes the value stored at [elementSlot] and inserts it into the list stored
-// at [listSlot] at [index].
-//
-// As in Wren, negative indexes can be used to insert from the end. To append
-// an element, use `-1` for the index.
-WREN_API void wrenInsertInList(WrenVM* vm, int listSlot, int index, int elementSlot);
-
-// Returns the number of entries in the map stored in [slot].
-WREN_API int wrenGetMapCount(WrenVM* vm, int slot);
 
 // Returns true if the key in [keySlot] is found in the map placed in [mapSlot].
 WREN_API bool wrenGetMapContainsKey(WrenVM* vm, int mapSlot, int keySlot);
