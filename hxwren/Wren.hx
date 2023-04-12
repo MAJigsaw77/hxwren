@@ -276,38 +276,41 @@ extern class Wren
 	@:native("wrenGetMapCount")
 	static function GetMapCount(vm:cpp.RawPointer<WrenVM>, slot:Int):Int;
 
+	// Returns true if the key in [keySlot] is found in the map placed in [mapSlot].
+	@:native("wrenGetMapContainsKey")
+	static function GetMapContainsKey(vm:cpp.RawPointer<WrenVM>, mapSlot:Int, keySlot:Int):Bool;
+
+	// Retrieves a value with the key in [keySlot] from the map in [mapSlot] and
+	// stores it in [valueSlot].
+	@:native("wrenGetMapValue")
+	static function GetMapValue(vm:cpp.RawPointer<WrenVM>, mapSlot:Int, keySlot:Int, valueSlot:Int):Void;
+
+	// Takes the value stored at [valueSlot] and inserts it into the map stored
+	// at [mapSlot] with key [keySlot].
+	@:native("wrenSetMapValue")
+	static function SetMapValue(vm:cpp.RawPointer<WrenVM>, mapSlot:Int, keySlot:Int, valueSlot:Int):Void;
+
+	// Removes a value from the map in [mapSlot], with the key from [keySlot],
+	// and place it in [removedValueSlot]. If not found, [removedValueSlot] is
+	// set to null, the same behaviour as the Wren Map API.
+	@:native("wrenRemoveMapValue")
+	static function RemoveMapValue(vm:cpp.RawPointer<WrenVM>, mapSlot:Int, keySlot:Int, removedValueSlot:Int):Void;
+
+	// Looks up the top level variable with [name] in resolved [module] and stores
+	// it in [slot].
+	@:native("wrenGetVariable")
+	static function GetVariable(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, name:cpp.ConstCharStar, slot:Int):Void;
+
+	// Looks up the top level variable with [name] in resolved [module], 
+	// returns false if not found. The module must be imported at the time, 
+	// use wrenHasModule to ensure that before calling.
+	@:native("wrenHasVariable")
+	static function HasVariable(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, name:cpp.ConstCharStar):Bool;
+
+	// Returns true if [module] has been imported/resolved before, false if not.
+	@:native("wrenHasModule")
+	static function HasModule(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar):Bool;
 /*
-
-// Returns true if the key in [keySlot] is found in the map placed in [mapSlot].
-WREN_API bool wrenGetMapContainsKey(WrenVM* vm, int mapSlot, int keySlot);
-
-// Retrieves a value with the key in [keySlot] from the map in [mapSlot] and
-// stores it in [valueSlot].
-WREN_API void wrenGetMapValue(WrenVM* vm, int mapSlot, int keySlot, int valueSlot);
-
-// Takes the value stored at [valueSlot] and inserts it into the map stored
-// at [mapSlot] with key [keySlot].
-WREN_API void wrenSetMapValue(WrenVM* vm, int mapSlot, int keySlot, int valueSlot);
-
-// Removes a value from the map in [mapSlot], with the key from [keySlot],
-// and place it in [removedValueSlot]. If not found, [removedValueSlot] is
-// set to null, the same behaviour as the Wren Map API.
-WREN_API void wrenRemoveMapValue(WrenVM* vm, int mapSlot, int keySlot,
-                        int removedValueSlot);
-
-// Looks up the top level variable with [name] in resolved [module] and stores
-// it in [slot].
-WREN_API void wrenGetVariable(WrenVM* vm, const char* module, const char* name,
-                     int slot);
-
-// Looks up the top level variable with [name] in resolved [module], 
-// returns false if not found. The module must be imported at the time, 
-// use wrenHasModule to ensure that before calling.
-WREN_API bool wrenHasVariable(WrenVM* vm, const char* module, const char* name);
-
-// Returns true if [module] has been imported/resolved before, false if not.
-WREN_API bool wrenHasModule(WrenVM* vm, const char* module);
-
 // Sets the current fiber to be aborted, and uses the value in [slot] as the
 // runtime error object.
 WREN_API void wrenAbortFiber(WrenVM* vm, int slot);
