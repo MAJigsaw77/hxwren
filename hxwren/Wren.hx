@@ -92,42 +92,42 @@ extern class Wren
 	@:native("wrenReleaseHandle")
 	static function ReleaseHandle(vm:cpp.RawPointer<WrenVM>, handle:cpp.RawPointer<WrenHandle>):Void;
 
-// The following functions are intended to be called from foreign methods or
-// finalizers. The interface Wren provides to a foreign method is like a
-// register machine: you are given a numbered array of slots that values can be
-// read from and written to. Values always live in a slot (unless explicitly
-// captured using wrenGetSlotHandle(), which ensures the garbage collector can
-// find them.
-//
-// When your foreign function is called, you are given one slot for the receiver
-// and each argument to the method. The receiver is in slot 0 and the arguments
-// are in increasingly numbered slots after that. You are free to read and
-// write to those slots as you want. If you want more slots to use as scratch
-// space, you can call wrenEnsureSlots() to add more.
-//
-// When your function returns, every slot except slot zero is discarded and the
-// value in slot zero is used as the return value of the method. If you don't
-// store a return value in that slot yourself, it will retain its previous
-// value, the receiver.
-//
-// While Wren is dynamically typed, C is not. This means the C interface has to
-// support the various types of primitive values a Wren variable can hold: bool,
-// double, string, etc. If we supported this for every operation in the C API,
-// there would be a combinatorial explosion of functions, like "get a
-// double-valued element from a list", "insert a string key and double value
-// into a map", etc.
-//
-// To avoid that, the only way to convert to and from a raw C value is by going
-// into and out of a slot. All other functions work with values already in a
-// slot. So, to add an element to a list, you put the list in one slot, and the
-// element in another. Then there is a single API function wrenInsertInList()
-// that takes the element out of that slot and puts it into the list.
-//
-// The goal of this API is to be easy to use while not compromising performance.
-// The latter means it does not do type or bounds checking at runtime except
-// using assertions which are generally removed from release builds. C is an
-// unsafe language, so it's up to you to be careful to use it correctly. In
-// return, you get a very fast FFI.
+	// The following functions are intended to be called from foreign methods or
+	// finalizers. The interface Wren provides to a foreign method is like a
+	// register machine: you are given a numbered array of slots that values can be
+	// read from and written to. Values always live in a slot (unless explicitly
+	// captured using wrenGetSlotHandle(), which ensures the garbage collector can
+	// find them.
+	//
+	// When your foreign function is called, you are given one slot for the receiver
+	// and each argument to the method. The receiver is in slot 0 and the arguments
+	// are in increasingly numbered slots after that. You are free to read and
+	// write to those slots as you want. If you want more slots to use as scratch
+	// space, you can call wrenEnsureSlots() to add more.
+	//
+	// When your function returns, every slot except slot zero is discarded and the
+	// value in slot zero is used as the return value of the method. If you don't
+	// store a return value in that slot yourself, it will retain its previous
+	// value, the receiver.
+	//
+	// While Wren is dynamically typed, C is not. This means the C interface has to
+	// support the various types of primitive values a Wren variable can hold: bool,
+	// double, string, etc. If we supported this for every operation in the C API,
+	// there would be a combinatorial explosion of functions, like "get a
+	// double-valued element from a list", "insert a string key and double value
+	// into a map", etc.
+	//
+	// To avoid that, the only way to convert to and from a raw C value is by going
+	// into and out of a slot. All other functions work with values already in a
+	// slot. So, to add an element to a list, you put the list in one slot, and the
+	// element in another. Then there is a single API function wrenInsertInList()
+	// that takes the element out of that slot and puts it into the list.
+	//
+	// The goal of this API is to be easy to use while not compromising performance.
+	// The latter means it does not do type or bounds checking at runtime except
+	// using assertions which are generally removed from release builds. C is an
+	// unsafe language, so it's up to you to be careful to use it correctly. In
+	// return, you get a very fast FFI.
 
 	// Returns the number of slots available to the current foreign method.
 	@:native("wrenGetSlotCount")
@@ -165,35 +165,38 @@ extern class Wren
 	@:native("wrenGetSlotBytes")
 	static function GetSlotBytes(vm:cpp.RawPointer<WrenVM>, slot:Int, length:cpp.Pointer<Int>):cpp.ConstCharStar;
 
+	// Reads a number from [slot].
+	//
+	// It is an error to call this if the slot does not contain a number.
+	@:native("wrenGetSlotDouble")
+	static function GetSlotDouble(vm:cpp.RawPointer<WrenVM>, slot:Int):Float;
+
+	// Reads a foreign object from [slot] and returns a pointer to the foreign data
+	// stored with it.
+	//
+	// It is an error to call this if the slot does not contain an instance of a
+	// foreign class.
+	@:native("wrenGetSlotForeign")
+	static function GetSlotForeign(vm:cpp.RawPointer<WrenVM>, slot:Int):cpp.Pointer<cpp.Void>;
+
+	// Reads a string from [slot].
+	//
+	// The memory for the returned string is owned by Wren. You can inspect it
+	// while in your foreign method, but cannot keep a pointer to it after the
+	// function returns, since the garbage collector may reclaim it.
+	//
+	// It is an error to call this if the slot does not contain a string.
+	@:native("wrenGetSlotString")
+	static function GetSlotString(vm:cpp.RawPointer<WrenVM>, slot:Int):cpp.ConstCharStar;
+
+	// Creates a handle for the value stored in [slot].
+	//
+	// This will prevent the object that is referred to from being garbage collected
+	// until the handle is released by calling [wrenReleaseHandle()].
+	@:native("wrenGetSlotHandle")
+	static function GetSlotHandle(vm:cpp.RawPointer<WrenVM>, slot:Int):cpp.RawPointer<WrenHandle>;
+
 /*
-
-// Reads a number from [slot].
-//
-// It is an error to call this if the slot does not contain a number.
-WREN_API double wrenGetSlotDouble(WrenVM* vm, int slot);
-
-// Reads a foreign object from [slot] and returns a pointer to the foreign data
-// stored with it.
-//
-// It is an error to call this if the slot does not contain an instance of a
-// foreign class.
-WREN_API void* wrenGetSlotForeign(WrenVM* vm, int slot);
-
-// Reads a string from [slot].
-//
-// The memory for the returned string is owned by Wren. You can inspect it
-// while in your foreign method, but cannot keep a pointer to it after the
-// function returns, since the garbage collector may reclaim it.
-//
-// It is an error to call this if the slot does not contain a string.
-WREN_API const char* wrenGetSlotString(WrenVM* vm, int slot);
-
-// Creates a handle for the value stored in [slot].
-//
-// This will prevent the object that is referred to from being garbage collected
-// until the handle is released by calling [wrenReleaseHandle()].
-WREN_API WrenHandle* wrenGetSlotHandle(WrenVM* vm, int slot);
-
 // Stores the boolean [value] in [slot].
 WREN_API void wrenSetSlotBool(WrenVM* vm, int slot, bool value);
 
