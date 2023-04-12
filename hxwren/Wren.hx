@@ -211,43 +211,50 @@ extern class Wren
 	@:native("wrenSetSlotDouble")
 	static function SetSlotDouble(vm:cpp.RawPointer<WrenVM>, slot:Int, value:Float):Void;
 
+	// Creates a new instance of the foreign class stored in [classSlot] with [size]
+	// bytes of raw storage and places the resulting object in [slot].
+	//
+	// This does not invoke the foreign class's constructor on the new instance. If
+	// you need that to happen, call the constructor from Wren, which will then
+	// call the allocator foreign method. In there, call this to create the object
+	// and then the constructor will be invoked when the allocator returns.
+	//
+	// Returns a pointer to the foreign object's data.
+	@:native("wrenSetSlotNewForeign")
+	static function SetSlotNewForeign(vm:cpp.RawPointer<WrenVM>, slot:Int, classSlot:Int, size:cpp.SizeT):cpp.Pointer<cpp.Void>;
+
+	// Stores a new empty list in [slot].
+	@:native("wrenSetSlotNewList")
+	static function SetSlotNewList(vm:cpp.RawPointer<WrenVM>, slot:Int):Void;
+
+	// Stores a new empty map in [slot].
+	@:native("wrenSetSlotNewMap")
+	static function SetSlotNewMap(vm:cpp.RawPointer<WrenVM>, slot:Int):Void;
+
+	// Stores null in [slot].
+	@:native("wrenSetSlotNull")
+	static function SetSlotNull(vm:cpp.RawPointer<WrenVM>, slot:Int):Void;
+
+	// Stores the string [text] in [slot].
+	//
+	// The [text] is copied to a new string within Wren's heap, so you can free
+	// memory used by it after this is called. The length is calculated using
+	// [strlen()]. If the string may contain any null bytes in the middle, then you
+	// should use [wrenSetSlotBytes()] instead.
+	@:native("wrenSetSlotString")
+	static function SetSlotString(vm:cpp.RawPointer<WrenVM>, slot:Int, text:cpp.ConstCharStar):Void;
+
+	// Stores the value captured in [handle] in [slot].
+	//
+	// This does not release the handle for the value.
+	@:native("wrenSetSlotHandle")
+	static function SetSlotHandle(vm:cpp.RawPointer<WrenVM>, slot:Int, handle:cpp.RawPointer<WrenHandle>):Void;
+
+	// Returns the number of elements in the list stored in [slot].
+	@:native("wrenGetListCount")
+	static function GetListCount(vm:cpp.RawPointer<WrenVM>, slot:Int):Int;
+
 /*
-
-// Creates a new instance of the foreign class stored in [classSlot] with [size]
-// bytes of raw storage and places the resulting object in [slot].
-//
-// This does not invoke the foreign class's constructor on the new instance. If
-// you need that to happen, call the constructor from Wren, which will then
-// call the allocator foreign method. In there, call this to create the object
-// and then the constructor will be invoked when the allocator returns.
-//
-// Returns a pointer to the foreign object's data.
-WREN_API void* wrenSetSlotNewForeign(WrenVM* vm, int slot, int classSlot, size_t size);
-
-// Stores a new empty list in [slot].
-WREN_API void wrenSetSlotNewList(WrenVM* vm, int slot);
-
-// Stores a new empty map in [slot].
-WREN_API void wrenSetSlotNewMap(WrenVM* vm, int slot);
-
-// Stores null in [slot].
-WREN_API void wrenSetSlotNull(WrenVM* vm, int slot);
-
-// Stores the string [text] in [slot].
-//
-// The [text] is copied to a new string within Wren's heap, so you can free
-// memory used by it after this is called. The length is calculated using
-// [strlen()]. If the string may contain any null bytes in the middle, then you
-// should use [wrenSetSlotBytes()] instead.
-WREN_API void wrenSetSlotString(WrenVM* vm, int slot, const char* text);
-
-// Stores the value captured in [handle] in [slot].
-//
-// This does not release the handle for the value.
-WREN_API void wrenSetSlotHandle(WrenVM* vm, int slot, WrenHandle* handle);
-
-// Returns the number of elements in the list stored in [slot].
-WREN_API int wrenGetListCount(WrenVM* vm, int slot);
 
 // Reads element [index] from the list in [listSlot] and stores it in
 // [elementSlot].
