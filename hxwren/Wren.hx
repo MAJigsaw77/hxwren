@@ -29,4 +29,266 @@ extern class Wren
 	// this if you want to do range checks over versions.
 	@:native('WREN_VERSION_NUMBER')
 	static var VERSION_NUMBER:Int;
+
+	// Get the current wren version number.
+	//
+	// Can be used to range checks over versions.
+	@:native("wrenGetVersionNumber")
+	static function GetVersionNumber():Int;
+
+	// Initializes [configuration] with all of its default values.
+	//
+	// Call this before setting the particular fields you care about.
+	@:native("wrenInitConfiguration")
+	static function InitConfiguration(configuration:cpp.RawPointer<WrenConfiguration>):Void;
+
+	// Creates a new Wren virtual machine using the given [configuration]. Wren
+	// will copy the configuration data, so the argument passed to this can be
+	// freed after calling this. If [configuration] is `NULL`, uses a default
+	// configuration.
+	@:native("wrenNewVM")
+	static function NewVM(configuration:cpp.RawPointer<WrenConfiguration>):Void;
+
+	// Disposes of all resources is use by [vm], which was previously created by a
+	// call to [wrenNewVM].
+	@:native("wrenFreeVM")
+	static function FreeVM(vm:cpp.RawPointer<WrenVM>):Void;
+
+	// Immediately run the garbage collector to free unused memory.
+	@:native("wrenCollectGarbage")
+	static function NewVM(vm:cpp.RawPointer<WrenVM>):Void;
+
+/*
+// Runs [source], a string of Wren source code in a new fiber in [vm] in the
+// context of resolved [module].
+WREN_API WrenInterpretResult wrenInterpret(WrenVM* vm, const char* module,
+                                  const char* source);
+
+// Creates a handle that can be used to invoke a method with [signature] on
+// using a receiver and arguments that are set up on the stack.
+//
+// This handle can be used repeatedly to directly invoke that method from C
+// code using [wrenCall].
+//
+// When you are done with this handle, it must be released using
+// [wrenReleaseHandle].
+WREN_API WrenHandle* wrenMakeCallHandle(WrenVM* vm, const char* signature);
+
+// Calls [method], using the receiver and arguments previously set up on the
+// stack.
+//
+// [method] must have been created by a call to [wrenMakeCallHandle]. The
+// arguments to the method must be already on the stack. The receiver should be
+// in slot 0 with the remaining arguments following it, in order. It is an
+// error if the number of arguments provided does not match the method's
+// signature.
+//
+// After this returns, you can access the return value from slot 0 on the stack.
+WREN_API WrenInterpretResult wrenCall(WrenVM* vm, WrenHandle* method);
+
+// Releases the reference stored in [handle]. After calling this, [handle] can
+// no longer be used.
+WREN_API void wrenReleaseHandle(WrenVM* vm, WrenHandle* handle);
+
+// The following functions are intended to be called from foreign methods or
+// finalizers. The interface Wren provides to a foreign method is like a
+// register machine: you are given a numbered array of slots that values can be
+// read from and written to. Values always live in a slot (unless explicitly
+// captured using wrenGetSlotHandle(), which ensures the garbage collector can
+// find them.
+//
+// When your foreign function is called, you are given one slot for the receiver
+// and each argument to the method. The receiver is in slot 0 and the arguments
+// are in increasingly numbered slots after that. You are free to read and
+// write to those slots as you want. If you want more slots to use as scratch
+// space, you can call wrenEnsureSlots() to add more.
+//
+// When your function returns, every slot except slot zero is discarded and the
+// value in slot zero is used as the return value of the method. If you don't
+// store a return value in that slot yourself, it will retain its previous
+// value, the receiver.
+//
+// While Wren is dynamically typed, C is not. This means the C interface has to
+// support the various types of primitive values a Wren variable can hold: bool,
+// double, string, etc. If we supported this for every operation in the C API,
+// there would be a combinatorial explosion of functions, like "get a
+// double-valued element from a list", "insert a string key and double value
+// into a map", etc.
+//
+// To avoid that, the only way to convert to and from a raw C value is by going
+// into and out of a slot. All other functions work with values already in a
+// slot. So, to add an element to a list, you put the list in one slot, and the
+// element in another. Then there is a single API function wrenInsertInList()
+// that takes the element out of that slot and puts it into the list.
+//
+// The goal of this API is to be easy to use while not compromising performance.
+// The latter means it does not do type or bounds checking at runtime except
+// using assertions which are generally removed from release builds. C is an
+// unsafe language, so it's up to you to be careful to use it correctly. In
+// return, you get a very fast FFI.
+
+// Returns the number of slots available to the current foreign method.
+WREN_API int wrenGetSlotCount(WrenVM* vm);
+
+// Ensures that the foreign method stack has at least [numSlots] available for
+// use, growing the stack if needed.
+//
+// Does not shrink the stack if it has more than enough slots.
+//
+// It is an error to call this from a finalizer.
+WREN_API void wrenEnsureSlots(WrenVM* vm, int numSlots);
+
+// Gets the type of the object in [slot].
+WREN_API WrenType wrenGetSlotType(WrenVM* vm, int slot);
+
+// Reads a boolean value from [slot].
+//
+// It is an error to call this if the slot does not contain a boolean value.
+WREN_API bool wrenGetSlotBool(WrenVM* vm, int slot);
+
+// Reads a byte array from [slot].
+//
+// The memory for the returned string is owned by Wren. You can inspect it
+// while in your foreign method, but cannot keep a pointer to it after the
+// function returns, since the garbage collector may reclaim it.
+//
+// Returns a pointer to the first byte of the array and fill [length] with the
+// number of bytes in the array.
+//
+// It is an error to call this if the slot does not contain a string.
+WREN_API const char* wrenGetSlotBytes(WrenVM* vm, int slot, int* length);
+
+// Reads a number from [slot].
+//
+// It is an error to call this if the slot does not contain a number.
+WREN_API double wrenGetSlotDouble(WrenVM* vm, int slot);
+
+// Reads a foreign object from [slot] and returns a pointer to the foreign data
+// stored with it.
+//
+// It is an error to call this if the slot does not contain an instance of a
+// foreign class.
+WREN_API void* wrenGetSlotForeign(WrenVM* vm, int slot);
+
+// Reads a string from [slot].
+//
+// The memory for the returned string is owned by Wren. You can inspect it
+// while in your foreign method, but cannot keep a pointer to it after the
+// function returns, since the garbage collector may reclaim it.
+//
+// It is an error to call this if the slot does not contain a string.
+WREN_API const char* wrenGetSlotString(WrenVM* vm, int slot);
+
+// Creates a handle for the value stored in [slot].
+//
+// This will prevent the object that is referred to from being garbage collected
+// until the handle is released by calling [wrenReleaseHandle()].
+WREN_API WrenHandle* wrenGetSlotHandle(WrenVM* vm, int slot);
+
+// Stores the boolean [value] in [slot].
+WREN_API void wrenSetSlotBool(WrenVM* vm, int slot, bool value);
+
+// Stores the array [length] of [bytes] in [slot].
+//
+// The bytes are copied to a new string within Wren's heap, so you can free
+// memory used by them after this is called.
+WREN_API void wrenSetSlotBytes(WrenVM* vm, int slot, const char* bytes, size_t length);
+
+// Stores the numeric [value] in [slot].
+WREN_API void wrenSetSlotDouble(WrenVM* vm, int slot, double value);
+
+// Creates a new instance of the foreign class stored in [classSlot] with [size]
+// bytes of raw storage and places the resulting object in [slot].
+//
+// This does not invoke the foreign class's constructor on the new instance. If
+// you need that to happen, call the constructor from Wren, which will then
+// call the allocator foreign method. In there, call this to create the object
+// and then the constructor will be invoked when the allocator returns.
+//
+// Returns a pointer to the foreign object's data.
+WREN_API void* wrenSetSlotNewForeign(WrenVM* vm, int slot, int classSlot, size_t size);
+
+// Stores a new empty list in [slot].
+WREN_API void wrenSetSlotNewList(WrenVM* vm, int slot);
+
+// Stores a new empty map in [slot].
+WREN_API void wrenSetSlotNewMap(WrenVM* vm, int slot);
+
+// Stores null in [slot].
+WREN_API void wrenSetSlotNull(WrenVM* vm, int slot);
+
+// Stores the string [text] in [slot].
+//
+// The [text] is copied to a new string within Wren's heap, so you can free
+// memory used by it after this is called. The length is calculated using
+// [strlen()]. If the string may contain any null bytes in the middle, then you
+// should use [wrenSetSlotBytes()] instead.
+WREN_API void wrenSetSlotString(WrenVM* vm, int slot, const char* text);
+
+// Stores the value captured in [handle] in [slot].
+//
+// This does not release the handle for the value.
+WREN_API void wrenSetSlotHandle(WrenVM* vm, int slot, WrenHandle* handle);
+
+// Returns the number of elements in the list stored in [slot].
+WREN_API int wrenGetListCount(WrenVM* vm, int slot);
+
+// Reads element [index] from the list in [listSlot] and stores it in
+// [elementSlot].
+WREN_API void wrenGetListElement(WrenVM* vm, int listSlot, int index, int elementSlot);
+
+// Sets the value stored at [index] in the list at [listSlot], 
+// to the value from [elementSlot]. 
+WREN_API void wrenSetListElement(WrenVM* vm, int listSlot, int index, int elementSlot);
+
+// Takes the value stored at [elementSlot] and inserts it into the list stored
+// at [listSlot] at [index].
+//
+// As in Wren, negative indexes can be used to insert from the end. To append
+// an element, use `-1` for the index.
+WREN_API void wrenInsertInList(WrenVM* vm, int listSlot, int index, int elementSlot);
+
+// Returns the number of entries in the map stored in [slot].
+WREN_API int wrenGetMapCount(WrenVM* vm, int slot);
+
+// Returns true if the key in [keySlot] is found in the map placed in [mapSlot].
+WREN_API bool wrenGetMapContainsKey(WrenVM* vm, int mapSlot, int keySlot);
+
+// Retrieves a value with the key in [keySlot] from the map in [mapSlot] and
+// stores it in [valueSlot].
+WREN_API void wrenGetMapValue(WrenVM* vm, int mapSlot, int keySlot, int valueSlot);
+
+// Takes the value stored at [valueSlot] and inserts it into the map stored
+// at [mapSlot] with key [keySlot].
+WREN_API void wrenSetMapValue(WrenVM* vm, int mapSlot, int keySlot, int valueSlot);
+
+// Removes a value from the map in [mapSlot], with the key from [keySlot],
+// and place it in [removedValueSlot]. If not found, [removedValueSlot] is
+// set to null, the same behaviour as the Wren Map API.
+WREN_API void wrenRemoveMapValue(WrenVM* vm, int mapSlot, int keySlot,
+                        int removedValueSlot);
+
+// Looks up the top level variable with [name] in resolved [module] and stores
+// it in [slot].
+WREN_API void wrenGetVariable(WrenVM* vm, const char* module, const char* name,
+                     int slot);
+
+// Looks up the top level variable with [name] in resolved [module], 
+// returns false if not found. The module must be imported at the time, 
+// use wrenHasModule to ensure that before calling.
+WREN_API bool wrenHasVariable(WrenVM* vm, const char* module, const char* name);
+
+// Returns true if [module] has been imported/resolved before, false if not.
+WREN_API bool wrenHasModule(WrenVM* vm, const char* module);
+
+// Sets the current fiber to be aborted, and uses the value in [slot] as the
+// runtime error object.
+WREN_API void wrenAbortFiber(WrenVM* vm, int slot);
+
+// Returns the user data associated with the WrenVM.
+WREN_API void* wrenGetUserData(WrenVM* vm);
+
+// Sets user data associated with the WrenVM.
+WREN_API void wrenSetUserData(WrenVM* vm, void* userData);
+*/
 }
