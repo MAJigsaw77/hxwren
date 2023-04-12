@@ -25,7 +25,11 @@
 		<file name="${haxelib:hxwren}/project/wren/src/optional/wren_opt_meta.c" />
 		<file name="${haxelib:hxwren}/project/wren/src/optional/wren_opt_random.c" />
 
-		<compilerflag value="-DWREN_DEBUG_DUMP_COMPILED_CODE" if="DWREN_DEBUG_DUMP_COMPILED_CODE" />
+		<compilerflag value="-DWREN_DEBUG_DUMP_COMPILED_CODE" if="WREN_DEBUG_DUMP_COMPILED_CODE" />
+		<compilerflag value="-DWREN_DEBUG_GC_STRESS" if="WREN_DEBUG_GC_STRESS" />
+		<compilerflag value="-DWREN_DEBUG_TRACE_INSTRUCTIONS" if="WREN_DEBUG_TRACE_INSTRUCTIONS" />
+		<compilerflag value="-DWREN_DEBUG_TRACE_MEMORY" if="WREN_DEBUG_TRACE_MEMORY" />
+		<compilerflag value="-DWREN_DEBUG_TRACE_GC" if="WREN_DEBUG_TRACE_GC" />
 		<compilerflag value="-DWREN_NAN_TAGGING" if="WREN_NAN_TAGGING" />
 	</files>
 
