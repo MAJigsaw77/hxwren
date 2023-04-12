@@ -8,7 +8,7 @@ import sys.io.File;
 
 class Main
 {
-	/*private static function writeFn(vm:cpp.RawPointer<WrenVM>, text:cpp.ConstCharStar):Void
+	private static function writeFn(vm:cpp.RawPointer<WrenVM>, text:cpp.ConstCharStar):Void
 	{
 		Sys.println(cast(text, String));
 	}
@@ -24,14 +24,14 @@ class Main
 			case WREN_ERROR_RUNTIME:
 				Sys.println('[Runtime Error] ' + cast(msg, String));
 		}
-	}*/
+	}
 
 	public static function main():Void
 	{
 		var config:WrenConfiguration = WrenConfiguration.create();
 		Wren.InitConfiguration(cpp.RawPointer.addressOf(config));
-		/*config.writeFn = cpp.Function.fromStaticFunction(writeFn);
-		config.errorFn = cpp.Function.fromStaticFunction(errorFn);*/
+		config.writeFn = cpp.Function.fromStaticFunction(writeFn);
+		config.errorFn = cpp.Function.fromStaticFunction(errorFn);
 
 		var vm:cpp.RawPointer<WrenVM> = Wren.NewVM(cpp.RawPointer.addressOf(config));
 
