@@ -13,7 +13,7 @@ class Main
 		Sys.println(cast(text, String));
 	}
 
-	private static function errorFn(vm:cpp.RawPointer<WrenVM>, errorType:WrenErrorType, module:cpp.ConstCharStar, line:Int, msg:cpp.ConstCharStar):Void
+	/*private static function errorFn(vm:cpp.RawPointer<WrenVM>, errorType:WrenErrorType, module:cpp.ConstCharStar, line:Int, msg:cpp.ConstCharStar):Void
 	{
 		switch (errorType)
 		{
@@ -24,14 +24,14 @@ class Main
 			case WREN_ERROR_RUNTIME:
 				Sys.println('[Runtime Error] ' + cast(msg, String));
 		}
-	}
+	}*/
 
 	public static function main():Void
 	{
 		var config:WrenConfiguration = WrenConfiguration.create();
 		Wren.InitConfiguration(cpp.RawPointer.addressOf(config));
 		config.writeFn = cpp.Function.fromStaticFunction(writeFn);
-		config.errorFn = cpp.Function.fromStaticFunction(errorFn);
+		/*config.errorFn = cpp.Function.fromStaticFunction(errorFn);*/
 
 		var vm:cpp.RawPointer<WrenVM> = Wren.NewVM(cpp.RawPointer.addressOf(config));
 
