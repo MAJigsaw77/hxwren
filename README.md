@@ -8,6 +8,17 @@ Haxe/hxcpp @:native bindings for [Wren](https://github.com/wren-lang/wren)
 
 * For now most of the `cpp.Callable` typedef functions that uses a **enum** won't compile unless you use some *c++ glue code*.
 
+### Installation
+
+You can install it through `Haxelib`
+```bash
+haxelib install hxwren
+```
+Or through `Git`, if you want the latest updates
+```bash
+haxelib git hxwren https://github.com/MAJigsaw77/hxwren.git
+```
+
 ### Usage Example
 
 Check out the [Sample Folder](sample/) for an example on how to use this library.
