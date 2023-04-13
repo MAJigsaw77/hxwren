@@ -1,5 +1,7 @@
 -cp ./
 -D analyzer-optimize
+-D WREN_OPT_META
+-D WREN_OPT_RANDOM
 -lib hxwren
 -main Main
 -cpp bin
