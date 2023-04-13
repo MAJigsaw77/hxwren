@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+	<compilerflag value="-DWREN_COMPUTED_GOTO" if="WREN_COMPUTED_GOTO" />
+	<compilerflag value="-DWREN_DEBUG_DUMP_COMPILED_CODE" if="WREN_DEBUG_DUMP_COMPILED_CODE" />
+	<compilerflag value="-DWREN_DEBUG_GC_STRESS" if="WREN_DEBUG_GC_STRESS" />
+	<compilerflag value="-DWREN_DEBUG_TRACE_INSTRUCTIONS" if="WREN_DEBUG_TRACE_INSTRUCTIONS" />
+	<compilerflag value="-DWREN_DEBUG_TRACE_MEMORY" if="WREN_DEBUG_TRACE_MEMORY" />
+	<compilerflag value="-DWREN_DEBUG_TRACE_GC" if="WREN_DEBUG_TRACE_GC" />
+	<compilerflag value="-DWREN_NAN_TAGGING" if="WREN_NAN_TAGGING" />
+</xml>
