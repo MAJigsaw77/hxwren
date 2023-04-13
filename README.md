@@ -6,7 +6,7 @@ Haxe/hxcpp @:native bindings for [Wren](https://github.com/wren-lang/wren)
 
 ### Known Issues
 
-* For now most of the `cpp.Callable` functions that uses a **enum** won't compile unless you use some *c++ glue code*.
+* For now most of the `cpp.Callable` typedef functions that uses a **enum** won't compile unless you use some *c++ glue code*.
 
 ### Usage Example
 
