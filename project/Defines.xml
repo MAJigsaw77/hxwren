@@ -9,7 +9,4 @@
 	<compilerflag value="-DWREN_DEBUG_TRACE_GC" if="WREN_DEBUG_TRACE_GC" />
 
 	<compilerflag value="-DWREN_NAN_TAGGING" if="WREN_NAN_TAGGING" />
-
-	<compilerflag value="-DWREN_OPT_META" if="WREN_OPT_META" />
-	<compilerflag value="-DWREN_OPT_RANDOM" if="WREN_OPT_RANDOM" />
 </xml>
