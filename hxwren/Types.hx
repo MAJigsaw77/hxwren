@@ -1,7 +1,7 @@
 package hxwren;
 
 #if (!cpp && macro)
-#error 'Wren supports only C++ target.'
+#error 'Wren supports only C++ target platforms.'
 #end
 
 class Types {} // blank
