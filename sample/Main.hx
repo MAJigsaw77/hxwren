@@ -9,7 +9,9 @@ import sys.io.File;
 class Main
 {
 	private static function writeFn(vm:cpp.RawPointer<WrenVM>, text:cpp.ConstCharStar):Void
+	{
 		Sys.println(cast(text, String));
+	}
 
 	/*private static function errorFn(vm:cpp.RawPointer<WrenVM>, errorType:WrenErrorType, module:cpp.ConstCharStar, line:Int, msg:cpp.ConstCharStar):Void
 	{
