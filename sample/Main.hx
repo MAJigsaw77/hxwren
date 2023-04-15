@@ -28,7 +28,7 @@ class Main
 
 	public static function main():Void
 	{
-		Sys.println('Wren ${Wren.GetVersionNumber()}')
+		Sys.println('Wren ${Wren.GetVersionNumber()}');
 
 		var config:WrenConfiguration = WrenConfiguration.create();
 		Wren.InitConfiguration(cpp.RawPointer.addressOf(config));
