@@ -8,8 +8,8 @@
 		"wren"
 	],
 	"description":"Haxe/hxcpp @:native bindings for Wren.",
-	"version":"1.0.0",
-	"releasenote":"First Release.",
+	"version":"1.0.1",
+	"releasenote":"Added Submodule files when you simply install the lib.",
 	"contributors":[
 		"MAJigsaw77"
 	],
