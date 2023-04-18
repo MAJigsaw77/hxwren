@@ -10,7 +10,7 @@ class Main
 {
 	private static function writeFn(vm:cpp.RawPointer<WrenVM>, text:cpp.ConstCharStar):Void
 	{
-		Sys.println(cast(text, String));
+		Sys.println('${cast(text, String)}');
 	}
 
 	public static function main():Void
