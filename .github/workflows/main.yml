@@ -19,6 +19,6 @@ jobs:
 
       - name: Compiling 
         run: |
-          haxelib git hxwren https://github.com/MAJigsaw77/hxwren.git wren-newcommit --quiet
+          haxelib git hxwren https://github.com/MAJigsaw77/hxwren.git --quiet
           cd sample
           haxe build.hxml
