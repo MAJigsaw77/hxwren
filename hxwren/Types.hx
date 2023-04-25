@@ -114,7 +114,7 @@ enum abstract WrenErrorType(Int) from Int to Int
 // made for each line in the stack trace. Each of those has the resolved
 // [module] and [line] where the method or function is defined and [message] is
 // the name of the method or function.
-typedef WrenErrorFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, type:WrenErrorType, module:cpp.ConstCharStar, line:Int, message:cpp.ConstCharStar) -> Void>;
+typedef WrenErrorFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, type:Int, module:cpp.ConstCharStar, line:Int, message:cpp.ConstCharStar) -> Void>;
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include("wren.hpp")
