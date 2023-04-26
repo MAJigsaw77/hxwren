@@ -10,8 +10,7 @@ class Main
 {
 	private static function writeFn(vm:cpp.RawPointer<WrenVM>, text:cpp.ConstCharStar):Void
 	{
-		if (cast(text, String) == "\n") // Wtf Wren?
-			Sys.println(cast(text, String));
+		Sys.println(cast(text, String));
 	}
 
 	private static function errorFn(vm:cpp.RawPointer<WrenVM>, errorType:Int, module:cpp.ConstCharStar, line:Int, msg:cpp.ConstCharStar):Void
