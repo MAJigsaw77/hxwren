@@ -78,7 +78,7 @@ extern class WrenLoadModuleResult
 
 	var source:cpp.ConstCharStar;
 	var onComplete:WrenLoadModuleCompleteFn;
-	var userData:cpp.RawPointer<cpp.Void>;
+	var userData:cpp.Pointer<cpp.Void>;
 }
 
 // Loads and returns the source code for the module [name].
@@ -268,7 +268,7 @@ extern class WrenConfiguration
 	var heapGrowthPercent:Int;
 
 	// User-defined data associated with the VM.
-	var userData:cpp.RawPointer<cpp.Void>;
+	var userData:cpp.Pointer<cpp.Void>;
 }
 
 enum abstract WrenInterpretResult(Int) from Int to Int
