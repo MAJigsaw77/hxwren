@@ -42,7 +42,7 @@ extern class WrenHandle {}
 //
 // - To free memory, [memory] will be the memory to free and [newSize] will be
 //   zero. It should return NULL.
-typedef WrenReallocateFn = cpp.Callable<(memory:cpp.Pointer<cpp.Void>, newSize:cpp.SizeT, userData:cpp.Pointer<cpp.Void>) -> cpp.Pointer<cpp.Void>>;
+typedef WrenReallocateFn = cpp.Callable<(memory:cpp.RawPointer<cpp.Void>, newSize:cpp.SizeT, userData:cpp.RawPointer<cpp.Void>) -> cpp.RawPointer<cpp.Void>>;
 
 // A function callable from Wren code, but implemented in C.
 typedef WrenForeignMethodFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>) -> Void>;
@@ -51,7 +51,7 @@ typedef WrenForeignMethodFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>) -> Void>;
 // class. Unlike most foreign methods, finalizers do not have access to the VM
 // and should not interact with it since it's in the middle of a garbage
 // collection.
-typedef WrenFinalizerFn = cpp.Callable<(data:cpp.Pointer<cpp.Void>) -> Void>;
+typedef WrenFinalizerFn = cpp.Callable<(data:cpp.RawPointer<cpp.Void>) -> Void>;
 
 // Gives the host a chance to canonicalize the imported module name,
 // potentially taking into account the (previously resolved) name of the module
@@ -78,7 +78,7 @@ extern class WrenLoadModuleResult
 
 	var source:cpp.ConstCharStar;
 	var onComplete:WrenLoadModuleCompleteFn;
-	var userData:cpp.Pointer<cpp.Void>;
+	var userData:cpp.RawPointer<cpp.Void>;
 }
 
 // Loads and returns the source code for the module [name].
@@ -268,7 +268,7 @@ extern class WrenConfiguration
 	var heapGrowthPercent:Int;
 
 	// User-defined data associated with the VM.
-	var userData:cpp.Pointer<cpp.Void>;
+	var userData:cpp.RawPointer<cpp.Void>;
 }
 
 enum abstract WrenInterpretResult(Int) from Int to Int
