@@ -8,8 +8,8 @@
 		"wren"
 	],
 	"description":"Haxe/hxcpp @:native bindings for Wren.",
-	"version":"1.1.0",
-	"releasenote":"Updated to a Wren fork to fix the error callback function.",
+	"version":"1.1.1",
+	"releasenote":"Fixed some types.",
 	"contributors":[
 		"MAJigsaw77"
 	],
