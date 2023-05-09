@@ -7,7 +7,6 @@ import hxwren.Types;
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include("wren.hpp")
-@:keep
 @:unreflective
 extern class Wren
 {

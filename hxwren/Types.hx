@@ -12,7 +12,6 @@ class Types {} // blank
 // here.
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include("wren.hpp")
-@:keep
 @:native("WrenVM")
 extern class WrenVM {}
 
@@ -23,7 +22,6 @@ extern class WrenVM {}
 // garbage collector will not reclaim the object it references.
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include("wren.hpp")
-@:keep
 @:native("WrenHandle")
 extern class WrenHandle {}
 
@@ -68,7 +66,6 @@ typedef WrenLoadModuleCompleteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, name
 // [onComplete] an optional callback that will be called once Wren is done with the result.
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include("wren.hpp")
-@:keep
 @:structAccess
 @:native("WrenLoadModuleResult")
 extern class WrenLoadModuleResult
@@ -118,7 +115,6 @@ typedef WrenErrorFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, type:Int, module:
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include("wren.hpp")
-@:keep
 @:structAccess
 @:native("WrenForeignClassMethods")
 extern class WrenForeignClassMethods
@@ -145,7 +141,6 @@ typedef WrenBindForeignClassFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, module
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include("wren.hpp")
-@:keep
 @:structAccess
 @:native("WrenConfiguration")
 extern class WrenConfiguration
