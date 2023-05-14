@@ -8,8 +8,8 @@
 		"wren"
 	],
 	"description":"Haxe/hxcpp @:native bindings for Wren.",
-	"version":"1.1.1",
-	"releasenote":"Fixed some types.",
+	"version":"1.1.2",
+	"releasenote":"Fixed issues with reflection and dce.",
 	"contributors":[
 		"MAJigsaw77"
 	],
