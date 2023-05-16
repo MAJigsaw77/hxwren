@@ -162,7 +162,7 @@ extern class Wren
 	//
 	// It is an error to call this if the slot does not contain a string.
 	@:native("wrenGetSlotBytes")
-	static function GetSlotBytes(vm:cpp.RawPointer<WrenVM>, slot:Int, length:cpp.Pointer<Int>):cpp.ConstCharStar;
+	static function GetSlotBytes(vm:cpp.RawPointer<WrenVM>, slot:Int, length:cpp.RawPointer<Int>):cpp.ConstCharStar;
 
 	// Reads a number from [slot].
 	//
@@ -176,7 +176,7 @@ extern class Wren
 	// It is an error to call this if the slot does not contain an instance of a
 	// foreign class.
 	@:native("wrenGetSlotForeign")
-	static function GetSlotForeign(vm:cpp.RawPointer<WrenVM>, slot:Int):cpp.Pointer<cpp.Void>;
+	static function GetSlotForeign(vm:cpp.RawPointer<WrenVM>, slot:Int):cpp.RawPointer<cpp.Void>;
 
 	// Reads a string from [slot].
 	//
@@ -220,7 +220,7 @@ extern class Wren
 	//
 	// Returns a pointer to the foreign object's data.
 	@:native("wrenSetSlotNewForeign")
-	static function SetSlotNewForeign(vm:cpp.RawPointer<WrenVM>, slot:Int, classSlot:Int, size:cpp.SizeT):cpp.Pointer<cpp.Void>;
+	static function SetSlotNewForeign(vm:cpp.RawPointer<WrenVM>, slot:Int, classSlot:Int, size:cpp.SizeT):cpp.RawPointer<cpp.Void>;
 
 	// Stores a new empty list in [slot].
 	@:native("wrenSetSlotNewList")
@@ -317,9 +317,9 @@ extern class Wren
 
 	// Returns the user data associated with the WrenVM.
 	@:native("wrenGetUserData")
-	static function GetUserData(vm:cpp.RawPointer<WrenVM>):cpp.Pointer<cpp.Void>;
+	static function GetUserData(vm:cpp.RawPointer<WrenVM>):cpp.RawPointer<cpp.Void>;
 
 	// Sets user data associated with the WrenVM.
 	@:native("wrenSetUserData")
-	static function SetUserData(vm:cpp.RawPointer<WrenVM>, userData:cpp.Pointer<cpp.Void>):Void;
+	static function SetUserData(vm:cpp.RawPointer<WrenVM>, userData:cpp.RawPointer<cpp.Void>):Void;
 }
