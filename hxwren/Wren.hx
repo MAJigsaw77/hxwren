@@ -162,7 +162,7 @@ extern class Wren
 	//
 	// It is an error to call this if the slot does not contain a string.
 	@:native("wrenGetSlotBytes")
-	static function GetSlotBytes(vm:cpp.RawPointer<WrenVM>, slot:Int, length:cpp.RawPointer<Int>):cpp.ConstCharStar;
+	static function GetSlotBytes(vm:cpp.RawPointer<WrenVM>, slot:Int, length:cpp.Star<Int>):cpp.ConstCharStar;
 
 	// Reads a number from [slot].
 	//
