@@ -49,6 +49,6 @@ class Main
 		}
 
 		Wren.FreeVM(vm);
-		vm = null;
+		vm = untyped __cpp__('NULL');
 	}
 }
