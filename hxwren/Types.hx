@@ -59,7 +59,7 @@ typedef WrenResolveModuleFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, importer:
 
 // Called after loadModuleFn is called for module [name]. The original returned result
 // is handed back to you in this callback, so that you can free memory if appropriate.
-typedef WrenLoadModuleCompleteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, name:cpp.ConstCharStar, result:WrenLoadModuleResult) -> Void>;
+typedef WrenLoadModuleCompleteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, name:cpp.ConstCharStar, result:cpp.Struct<WrenLoadModuleResult>) -> Void>;
 
 // The result of a loadModuleFn call.
 // [source] is the source code for the module, or NULL if the module is not found.
