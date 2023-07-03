@@ -21,8 +21,8 @@ extern class Wren
 	static var VERSION_PATCH:Int;
 
 	// A human-friendly string representation of the version.
-	@:native('WREN_VERSION_STRING')
-	static var VERSION_STRING:cpp.ConstCharStar;
+	@:native('::String(WREN_VERSION_STRING)')
+	static var VERSION_STRING:String;
 
 	// A monotonically increasing numeric representation of the version number. Use
 	// this if you want to do range checks over versions.
