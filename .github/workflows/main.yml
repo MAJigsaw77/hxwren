@@ -1,7 +1,7 @@
 name: Testing
 on:
   push:
-    branches: [ main ]
+    branches: main
   workflow_dispatch:
 jobs:
   Job:
@@ -19,6 +19,6 @@ jobs:
 
       - name: Compiling 
         run: |
-          haxelib git hxwren https://github.com/MAJigsaw77/hxwren.git --quiet
+          haxelib git hxwren https://github.com/MAJigsaw77/hxwren.git ${{github.ref_name}} --quiet
           cd sample
           haxe build.hxml
