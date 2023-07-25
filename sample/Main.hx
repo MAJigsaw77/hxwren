@@ -31,7 +31,7 @@ class Main
 	{
 		Sys.println('Wren ${Wren.GetVersionNumber()}');
 
-		var config:WrenConfiguration = untyped __cpp__('NULL');
+		var config:WrenConfiguration = WrenConfiguration.create();
 		Wren.InitConfiguration(cpp.RawPointer.addressOf(config));
 		config.writeFn = cpp.Function.fromStaticFunction(writeFn);
 		config.errorFn = cpp.Function.fromStaticFunction(errorFn);
