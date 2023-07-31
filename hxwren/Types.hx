@@ -11,8 +11,8 @@ class Types {} // blank
 // Wren has no global state, so all state stored by a running interpreter lives
 // here.
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
-@:include("wren.hpp")
-@:native("WrenVM")
+@:include('wren.hpp')
+@:native('WrenVM')
 extern class WrenVM {}
 
 // A handle to a Wren object.
@@ -21,8 +21,8 @@ extern class WrenVM {}
 // After a handle is acquired, and until it is released, this ensures the
 // garbage collector will not reclaim the object it references.
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
-@:include("wren.hpp")
-@:native("WrenHandle")
+@:include('wren.hpp')
+@:native('WrenHandle')
 extern class WrenHandle {}
 
 // A generic allocation function that handles all explicit memory management
@@ -65,10 +65,10 @@ typedef WrenLoadModuleCompleteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, name
 // [source] is the source code for the module, or NULL if the module is not found.
 // [onComplete] an optional callback that will be called once Wren is done with the result.
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
-@:include("wren.hpp")
+@:include('wren.hpp')
 @:unreflective
 @:structAccess
-@:native("WrenLoadModuleResult")
+@:native('WrenLoadModuleResult')
 extern class WrenLoadModuleResult
 {
 	@:native('WrenLoadModuleResult')
@@ -115,10 +115,10 @@ enum abstract WrenErrorType(Int) from Int to Int
 typedef WrenErrorFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, type:Int, module:cpp.ConstCharStar, line:Int, message:cpp.ConstCharStar) -> Void>;
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
-@:include("wren.hpp")
+@:include('wren.hpp')
 @:unreflective
 @:structAccess
-@:native("WrenForeignClassMethods")
+@:native('WrenForeignClassMethods')
 extern class WrenForeignClassMethods
 {
 	@:native('WrenForeignClassMethods')
@@ -142,10 +142,10 @@ extern class WrenForeignClassMethods
 typedef WrenBindForeignClassFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, className:cpp.ConstCharStar) -> WrenForeignClassMethods>;
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
-@:include("wren.hpp")
+@:include('wren.hpp')
 @:unreflective
 @:structAccess
-@:native("WrenConfiguration")
+@:native('WrenConfiguration')
 extern class WrenConfiguration
 {
 	@:native('WrenConfiguration')

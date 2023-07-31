@@ -6,7 +6,7 @@ package hxwren;
 import hxwren.Types;
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
-@:include("wren.hpp")
+@:include('wren.hpp')
 @:unreflective
 extern class Wren
 {
@@ -32,34 +32,34 @@ extern class Wren
 	// Get the current wren version number.
 	//
 	// Can be used to range checks over versions.
-	@:native("wrenGetVersionNumber")
+	@:native('wrenGetVersionNumber')
 	static function GetVersionNumber():Int;
 
 	// Initializes [configuration] with all of its default values.
 	//
 	// Call this before setting the particular fields you care about.
-	@:native("wrenInitConfiguration")
+	@:native('wrenInitConfiguration')
 	static function InitConfiguration(configuration:cpp.RawPointer<WrenConfiguration>):Void;
 
 	// Creates a new Wren virtual machine using the given [configuration]. Wren
 	// will copy the configuration data, so the argument passed to this can be
 	// freed after calling this. If [configuration] is `NULL`, uses a default
 	// configuration.
-	@:native("wrenNewVM")
+	@:native('wrenNewVM')
 	static function NewVM(configuration:cpp.RawPointer<WrenConfiguration>):cpp.RawPointer<WrenVM>;
 
 	// Disposes of all resources is use by [vm], which was previously created by a
 	// call to [wrenNewVM].
-	@:native("wrenFreeVM")
+	@:native('wrenFreeVM')
 	static function FreeVM(vm:cpp.RawPointer<WrenVM>):Void;
 
 	// Immediately run the garbage collector to free unused memory.
-	@:native("wrenCollectGarbage")
+	@:native('wrenCollectGarbage')
 	static function CollectGarbage(vm:cpp.RawPointer<WrenVM>):Void;
 
 	// Runs [source], a string of Wren source code in a new fiber in [vm] in the
 	// context of resolved [module].
-	@:native("wrenInterpret")
+	@:native('wrenInterpret')
 	static function Interpret(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, source:cpp.ConstCharStar):WrenInterpretResult;
 
 	// Creates a handle that can be used to invoke a method with [signature] on
@@ -70,7 +70,7 @@ extern class Wren
 	//
 	// When you are done with this handle, it must be released using
 	// [wrenReleaseHandle].
-	@:native("wrenMakeCallHandle")
+	@:native('wrenMakeCallHandle')
 	static function MakeCallHandle(vm:cpp.RawPointer<WrenVM>, signature:cpp.ConstCharStar):cpp.RawPointer<WrenHandle>;
 
 	// Calls [method], using the receiver and arguments previously set up on the
@@ -83,12 +83,12 @@ extern class Wren
 	// signature.
 	//
 	// After this returns, you can access the return value from slot 0 on the stack.
-	@:native("wrenCall")
+	@:native('wrenCall')
 	static function Call(vm:cpp.RawPointer<WrenVM>, method:cpp.RawPointer<WrenHandle>):WrenInterpretResult;
 
 	// Releases the reference stored in [handle]. After calling this, [handle] can
 	// no longer be used.
-	@:native("wrenReleaseHandle")
+	@:native('wrenReleaseHandle')
 	static function ReleaseHandle(vm:cpp.RawPointer<WrenVM>, handle:cpp.RawPointer<WrenHandle>):Void;
 
 	// The following functions are intended to be called from foreign methods or
@@ -129,7 +129,7 @@ extern class Wren
 	// return, you get a very fast FFI.
 
 	// Returns the number of slots available to the current foreign method.
-	@:native("wrenGetSlotCount")
+	@:native('wrenGetSlotCount')
 	static function GetSlotCount(vm:cpp.RawPointer<WrenVM>):Int;
 
 	// Ensures that the foreign method stack has at least [numSlots] available for
@@ -138,17 +138,17 @@ extern class Wren
 	// Does not shrink the stack if it has more than enough slots.
 	//
 	// It is an error to call this from a finalizer.
-	@:native("wrenEnsureSlots")
+	@:native('wrenEnsureSlots')
 	static function EnsureSlots(vm:cpp.RawPointer<WrenVM>, numSlots:Int):Void;
 
 	// Gets the type of the object in [slot].
-	@:native("wrenGetSlotType")
+	@:native('wrenGetSlotType')
 	static function GetSlotType(vm:cpp.RawPointer<WrenVM>, slot:Int):WrenType;
 
 	// Reads a boolean value from [slot].
 	//
 	// It is an error to call this if the slot does not contain a boolean value.
-	@:native("wrenGetSlotBool")
+	@:native('wrenGetSlotBool')
 	static function GetSlotBool(vm:cpp.RawPointer<WrenVM>, slot:Int):Bool;
 
 	// Reads a byte array from [slot].
@@ -161,13 +161,13 @@ extern class Wren
 	// number of bytes in the array.
 	//
 	// It is an error to call this if the slot does not contain a string.
-	@:native("wrenGetSlotBytes")
+	@:native('wrenGetSlotBytes')
 	static function GetSlotBytes(vm:cpp.RawPointer<WrenVM>, slot:Int, length:cpp.Star<Int>):cpp.ConstCharStar;
 
 	// Reads a number from [slot].
 	//
 	// It is an error to call this if the slot does not contain a number.
-	@:native("wrenGetSlotDouble")
+	@:native('wrenGetSlotDouble')
 	static function GetSlotDouble(vm:cpp.RawPointer<WrenVM>, slot:Int):Float;
 
 	// Reads a foreign object from [slot] and returns a pointer to the foreign data
@@ -175,7 +175,7 @@ extern class Wren
 	//
 	// It is an error to call this if the slot does not contain an instance of a
 	// foreign class.
-	@:native("wrenGetSlotForeign")
+	@:native('wrenGetSlotForeign')
 	static function GetSlotForeign(vm:cpp.RawPointer<WrenVM>, slot:Int):cpp.RawPointer<cpp.Void>;
 
 	// Reads a string from [slot].
@@ -185,29 +185,29 @@ extern class Wren
 	// function returns, since the garbage collector may reclaim it.
 	//
 	// It is an error to call this if the slot does not contain a string.
-	@:native("wrenGetSlotString")
+	@:native('wrenGetSlotString')
 	static function GetSlotString(vm:cpp.RawPointer<WrenVM>, slot:Int):cpp.ConstCharStar;
 
 	// Creates a handle for the value stored in [slot].
 	//
 	// This will prevent the object that is referred to from being garbage collected
 	// until the handle is released by calling [wrenReleaseHandle()].
-	@:native("wrenGetSlotHandle")
+	@:native('wrenGetSlotHandle')
 	static function GetSlotHandle(vm:cpp.RawPointer<WrenVM>, slot:Int):cpp.RawPointer<WrenHandle>;
 
 	// Stores the boolean [value] in [slot].
-	@:native("wrenSetSlotBool")
+	@:native('wrenSetSlotBool')
 	static function SetSlotBool(vm:cpp.RawPointer<WrenVM>, slot:Int, value:Bool):Void;
 
 	// Stores the array [length] of [bytes] in [slot].
 	//
 	// The bytes are copied to a new string within Wren's heap, so you can free
 	// memory used by them after this is called.
-	@:native("wrenSetSlotBytes")
+	@:native('wrenSetSlotBytes')
 	static function SetSlotBytes(vm:cpp.RawPointer<WrenVM>, slot:Int, bytes:cpp.ConstCharStar, length:cpp.SizeT):Void;
 
 	// Stores the numeric [value] in [slot].
-	@:native("wrenSetSlotDouble")
+	@:native('wrenSetSlotDouble')
 	static function SetSlotDouble(vm:cpp.RawPointer<WrenVM>, slot:Int, value:Float):Void;
 
 	// Creates a new instance of the foreign class stored in [classSlot] with [size]
@@ -219,19 +219,19 @@ extern class Wren
 	// and then the constructor will be invoked when the allocator returns.
 	//
 	// Returns a pointer to the foreign object's data.
-	@:native("wrenSetSlotNewForeign")
+	@:native('wrenSetSlotNewForeign')
 	static function SetSlotNewForeign(vm:cpp.RawPointer<WrenVM>, slot:Int, classSlot:Int, size:cpp.SizeT):cpp.RawPointer<cpp.Void>;
 
 	// Stores a new empty list in [slot].
-	@:native("wrenSetSlotNewList")
+	@:native('wrenSetSlotNewList')
 	static function SetSlotNewList(vm:cpp.RawPointer<WrenVM>, slot:Int):Void;
 
 	// Stores a new empty map in [slot].
-	@:native("wrenSetSlotNewMap")
+	@:native('wrenSetSlotNewMap')
 	static function SetSlotNewMap(vm:cpp.RawPointer<WrenVM>, slot:Int):Void;
 
 	// Stores null in [slot].
-	@:native("wrenSetSlotNull")
+	@:native('wrenSetSlotNull')
 	static function SetSlotNull(vm:cpp.RawPointer<WrenVM>, slot:Int):Void;
 
 	// Stores the string [text] in [slot].
@@ -240,27 +240,27 @@ extern class Wren
 	// memory used by it after this is called. The length is calculated using
 	// [strlen()]. If the string may contain any null bytes in the middle, then you
 	// should use [wrenSetSlotBytes()] instead.
-	@:native("wrenSetSlotString")
+	@:native('wrenSetSlotString')
 	static function SetSlotString(vm:cpp.RawPointer<WrenVM>, slot:Int, text:cpp.ConstCharStar):Void;
 
 	// Stores the value captured in [handle] in [slot].
 	//
 	// This does not release the handle for the value.
-	@:native("wrenSetSlotHandle")
+	@:native('wrenSetSlotHandle')
 	static function SetSlotHandle(vm:cpp.RawPointer<WrenVM>, slot:Int, handle:cpp.RawPointer<WrenHandle>):Void;
 
 	// Returns the number of elements in the list stored in [slot].
-	@:native("wrenGetListCount")
+	@:native('wrenGetListCount')
 	static function GetListCount(vm:cpp.RawPointer<WrenVM>, slot:Int):Int;
 
 	// Reads element [index] from the list in [listSlot] and stores it in
 	// [elementSlot].
-	@:native("wrenGetListElement")
+	@:native('wrenGetListElement')
 	static function GetListElement(vm:cpp.RawPointer<WrenVM>, listSlot:Int, index:Int, elementSlot:Int):Void;
 
 	// Sets the value stored at [index] in the list at [listSlot], 
 	// to the value from [elementSlot]. 
-	@:native("wrenSetListElement")
+	@:native('wrenSetListElement')
 	static function SetListElement(vm:cpp.RawPointer<WrenVM>, listSlot:Int, index:Int, elementSlot:Int):Void;
 
 	// Takes the value stored at [elementSlot] and inserts it into the list stored
@@ -268,58 +268,58 @@ extern class Wren
 	//
 	// As in Wren, negative indexes can be used to insert from the end. To append
 	// an element, use `-1` for the index.
-	@:native("wrenInsertInList")
+	@:native('wrenInsertInList')
 	static function InsertInList(vm:cpp.RawPointer<WrenVM>, listSlot:Int, index:Int, elementSlot:Int):Void;
 
 	// Returns the number of entries in the map stored in [slot].
-	@:native("wrenGetMapCount")
+	@:native('wrenGetMapCount')
 	static function GetMapCount(vm:cpp.RawPointer<WrenVM>, slot:Int):Int;
 
 	// Returns true if the key in [keySlot] is found in the map placed in [mapSlot].
-	@:native("wrenGetMapContainsKey")
+	@:native('wrenGetMapContainsKey')
 	static function GetMapContainsKey(vm:cpp.RawPointer<WrenVM>, mapSlot:Int, keySlot:Int):Bool;
 
 	// Retrieves a value with the key in [keySlot] from the map in [mapSlot] and
 	// stores it in [valueSlot].
-	@:native("wrenGetMapValue")
+	@:native('wrenGetMapValue')
 	static function GetMapValue(vm:cpp.RawPointer<WrenVM>, mapSlot:Int, keySlot:Int, valueSlot:Int):Void;
 
 	// Takes the value stored at [valueSlot] and inserts it into the map stored
 	// at [mapSlot] with key [keySlot].
-	@:native("wrenSetMapValue")
+	@:native('wrenSetMapValue')
 	static function SetMapValue(vm:cpp.RawPointer<WrenVM>, mapSlot:Int, keySlot:Int, valueSlot:Int):Void;
 
 	// Removes a value from the map in [mapSlot], with the key from [keySlot],
 	// and place it in [removedValueSlot]. If not found, [removedValueSlot] is
 	// set to null, the same behaviour as the Wren Map API.
-	@:native("wrenRemoveMapValue")
+	@:native('wrenRemoveMapValue')
 	static function RemoveMapValue(vm:cpp.RawPointer<WrenVM>, mapSlot:Int, keySlot:Int, removedValueSlot:Int):Void;
 
 	// Looks up the top level variable with [name] in resolved [module] and stores
 	// it in [slot].
-	@:native("wrenGetVariable")
+	@:native('wrenGetVariable')
 	static function GetVariable(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, name:cpp.ConstCharStar, slot:Int):Void;
 
 	// Looks up the top level variable with [name] in resolved [module], 
 	// returns false if not found. The module must be imported at the time, 
 	// use wrenHasModule to ensure that before calling.
-	@:native("wrenHasVariable")
+	@:native('wrenHasVariable')
 	static function HasVariable(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar, name:cpp.ConstCharStar):Bool;
 
 	// Returns true if [module] has been imported/resolved before, false if not.
-	@:native("wrenHasModule")
+	@:native('wrenHasModule')
 	static function HasModule(vm:cpp.RawPointer<WrenVM>, module:cpp.ConstCharStar):Bool;
 
 	// Sets the current fiber to be aborted, and uses the value in [slot] as the
 	// runtime error object.
-	@:native("wrenAbortFiber")
+	@:native('wrenAbortFiber')
 	static function AbortFiber(vm:cpp.RawPointer<WrenVM>, slot:Int):Void;
 
 	// Returns the user data associated with the WrenVM.
-	@:native("wrenGetUserData")
+	@:native('wrenGetUserData')
 	static function GetUserData(vm:cpp.RawPointer<WrenVM>):cpp.RawPointer<cpp.Void>;
 
 	// Sets user data associated with the WrenVM.
-	@:native("wrenSetUserData")
+	@:native('wrenSetUserData')
 	static function SetUserData(vm:cpp.RawPointer<WrenVM>, userData:cpp.RawPointer<cpp.Void>):Void;
 }
