@@ -285,13 +285,13 @@ extern class WrenConfiguration
 extern enum abstract WrenInterpretResult(Int) from Int to Int
 {
 	@:native('WREN_RESULT_SUCCESS')
-	var WREN_ERROR_COMPILE = 0;
+	var WREN_RESULT_SUCCESS = 0;
 
 	@:native('WREN_RESULT_COMPILE_ERROR')
-	var WREN_ERROR_RUNTIME = 1;
+	var WREN_RESULT_COMPILE_ERROR = 1;
 
 	@:native('WREN_RESULT_RUNTIME_ERROR')
-	var WREN_ERROR_STACK_TRACE = 2;
+	var WREN_RESULT_RUNTIME_ERROR = 2;
 }
 
 // The type of an object stored in a slot.
