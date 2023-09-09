@@ -326,6 +326,6 @@ extern enum abstract WrenType(Int) from Int to Int
 	var WREN_TYPE_STRING = 6;
 
 	// The object is of a type that isn't accessible by the C API.
-	@:native('WREN_TYPE_NULL')
-	var WREN_TYPE_NULL = 7;
+	@:native('WREN_TYPE_UNKNOWN')
+	var WREN_TYPE_UNKNOWN = 7;
 }
