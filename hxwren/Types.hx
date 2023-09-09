@@ -90,14 +90,23 @@ typedef WrenBindForeignMethodFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, modul
 // Displays a string of text to the user.
 typedef WrenWriteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, text:cpp.ConstCharStar) -> Void>;
 
-enum abstract WrenErrorType(Int) from Int to Int
+@:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
+@:include('wren.hpp')
+@:unreflective
+@:native('WrenErrorType')
+extern enum abstract WrenErrorType(Int) from Int to Int
 {
 	// A syntax or resolution error detected at compile time.
-	final WREN_ERROR_COMPILE = 0;
+	@:native('WREN_ERROR_COMPILE')
+	var WREN_ERROR_COMPILE = 0;
+
 	// The error message for a runtime error.
-	final WREN_ERROR_RUNTIME = 1;
+	@:native('WREN_ERROR_RUNTIME')
+	var WREN_ERROR_RUNTIME = 1;
+
 	// One entry of a runtime error's stack trace.
-	final WREN_ERROR_STACK_TRACE = 2;
+	@:native('WREN_ERROR_STACK_TRACE')
+	var WREN_ERROR_STACK_TRACE = 2;
 }
 
 // Reports an error to the user.
@@ -112,7 +121,7 @@ enum abstract WrenErrorType(Int) from Int to Int
 // made for each line in the stack trace. Each of those has the resolved
 // [module] and [line] where the method or function is defined and [message] is
 // the name of the method or function.
-typedef WrenErrorFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, type:Int, module:cpp.ConstCharStar, line:Int, message:cpp.ConstCharStar) -> Void>;
+typedef WrenErrorFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, type:WrenErrorType, module:cpp.ConstCharStar, line:Int, message:cpp.ConstCharStar) -> Void>;
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include('wren.hpp')
@@ -269,27 +278,54 @@ extern class WrenConfiguration
 	var userData:cpp.RawPointer<cpp.Void>;
 }
 
-enum abstract WrenInterpretResult(Int) from Int to Int
+@:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
+@:include('wren.hpp')
+@:unreflective
+@:native('WrenInterpretResult')
+extern enum abstract WrenInterpretResult(Int) from Int to Int
 {
-	final WREN_RESULT_SUCCESS = 0;
-	final WREN_RESULT_COMPILE_ERROR = 1;
-	final WREN_RESULT_RUNTIME_ERROR = 2;
+	@:native('WREN_RESULT_SUCCESS')
+	var WREN_RESULT_SUCCESS = 0;
+
+	@:native('WREN_RESULT_COMPILE_ERROR')
+	var WREN_RESULT_COMPILE_ERROR = 1;
+
+	@:native('WREN_RESULT_RUNTIME_ERROR')
+	var WREN_RESULT_RUNTIME_ERROR = 2;
 }
 
 // The type of an object stored in a slot.
 //
 // This is not necessarily the object's *class*, but instead its low level
 // representation type.
-enum abstract WrenType(Int) from Int to Int
+@:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
+@:include('wren.hpp')
+@:unreflective
+@:native('WrenType')
+extern enum abstract WrenType(Int) from Int to Int
 {
-	final WREN_TYPE_BOOL = 0;
-	final WREN_TYPE_NUM = 1;
-	final WREN_TYPE_FOREIGN = 2;
-	final WREN_TYPE_LIST = 3;
-	final WREN_TYPE_MAP = 4;
-	final WREN_TYPE_NULL = 5;
-	final WREN_TYPE_STRING = 6;
+	@:native('WREN_TYPE_BOOL')
+	var WREN_TYPE_BOOL = 0;
+
+	@:native('WREN_TYPE_NUM')
+	var WREN_TYPE_NUM = 1;
+
+	@:native('WREN_TYPE_FOREIGN')
+	var WREN_TYPE_FOREIGN = 2;
+
+	@:native('WREN_TYPE_LIST')
+	var WREN_TYPE_LIST = 3;
+
+	@:native('WREN_TYPE_MAP')
+	var WREN_TYPE_MAP = 4;
+
+	@:native('WREN_TYPE_NULL')
+	var WREN_TYPE_NULL = 5;
+
+	@:native('WREN_TYPE_STRING')
+	var WREN_TYPE_STRING = 6;
 
 	// The object is of a type that isn't accessible by the C API.
-	final WREN_TYPE_UNKNOWN = 7;
+	@:native('WREN_TYPE_UNKNOWN')
+	var WREN_TYPE_UNKNOWN = 7;
 }

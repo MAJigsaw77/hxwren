@@ -14,9 +14,9 @@ class Main
 			Sys.println(cast(text, String));
 	}
 
-	private static function errorFn(vm:cpp.RawPointer<WrenVM>, errorType:Int, module:cpp.ConstCharStar, line:Int, msg:cpp.ConstCharStar):Void
+	private static function errorFn(vm:cpp.RawPointer<WrenVM>, errorType:WrenErrorType, module:cpp.ConstCharStar, line:Int, msg:cpp.ConstCharStar):Void
 	{
-		switch (cast(errorType, WrenErrorType))
+		switch (errorType)
 		{
 			case WREN_ERROR_COMPILE:
 				Sys.println('[' + cast(module, String) + ' line ' + line + '] [Error] ' + cast(msg, String));
@@ -32,7 +32,9 @@ class Main
 		Sys.println('Wren ${Wren.GetVersionNumber()}');
 
 		var config:WrenConfiguration = WrenConfiguration.create();
+
 		Wren.InitConfiguration(cpp.RawPointer.addressOf(config));
+
 		config.writeFn = cpp.Function.fromStaticFunction(writeFn);
 		config.errorFn = cpp.Function.fromStaticFunction(errorFn);
 
