@@ -1,3 +1,3 @@
 [submodule "project/wren"]
 	path = project/wren
-	url = https://github.com/MAJigsaw77/wren
+	url = https://github.com/wren-lang/wren
