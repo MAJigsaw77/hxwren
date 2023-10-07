@@ -108,7 +108,7 @@ extern enum abstract WrenErrorType(WrenErrorTypeImpl)
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include('wren.hpp')
 @:native('WrenErrorType')
-extern class WrenErrorTypeImpl {}
+private extern class WrenErrorTypeImpl {}
 
 // Reports an error to the user.
 //
@@ -294,7 +294,7 @@ extern enum abstract WrenInterpretResult(WrenInterpretResultImpl)
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include('wren.hpp')
 @:native('WrenInterpretResult')
-extern class WrenInterpretResultImpl {}
+private extern class WrenInterpretResultImpl {}
 
 // The type of an object stored in a slot.
 //
@@ -331,4 +331,4 @@ extern enum abstract WrenType(WrenTypeImpl)
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
 @:include('wren.hpp')
 @:native('WrenType')
-extern class WrenTypeImpl {}
+private extern class WrenTypeImpl {}
