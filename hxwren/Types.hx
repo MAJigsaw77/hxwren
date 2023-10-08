@@ -103,6 +103,9 @@ extern enum abstract WrenErrorType(WrenErrorTypeImpl)
 	// One entry of a runtime error's stack trace.
 	@:native('WREN_ERROR_STACK_TRACE')
 	var WREN_ERROR_STACK_TRACE;
+
+	@:to extern public inline function toInt():Int
+		return untyped this;
 }
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
@@ -289,6 +292,9 @@ extern enum abstract WrenInterpretResult(WrenInterpretResultImpl)
 
 	@:native('WREN_RESULT_RUNTIME_ERROR')
 	var WREN_RESULT_RUNTIME_ERROR;
+
+	@:to extern public inline function toInt():Int
+		return untyped this;
 }
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
@@ -326,6 +332,9 @@ extern enum abstract WrenType(WrenTypeImpl)
 	// The object is of a type that isn't accessible by the C API.
 	@:native('WREN_TYPE_UNKNOWN')
 	var WREN_TYPE_UNKNOWN;
+
+	@:to extern public inline function toInt():Int
+		return untyped this;
 }
 
 @:buildXml('<include name="${haxelib:hxwren}/project/Build.xml" />')
