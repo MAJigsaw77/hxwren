@@ -40,7 +40,7 @@ class Main
 
 		var vm:cpp.RawPointer<WrenVM> = Wren.NewVM(cpp.RawPointer.addressOf(config));
 
-		trace(cast(Wren.Interpret(vm, "main", File.getContent('script.wren')), Int));
+		trace(Wren.Interpret(vm, "main", File.getContent('script.wren')));
 
 		/*switch (Wren.Interpret(vm, "main", File.getContent('script.wren')))
 		{
