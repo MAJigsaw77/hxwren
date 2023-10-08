@@ -38,6 +38,10 @@ class Main
 		config.writeFn = cpp.Function.fromStaticFunction(writeFn);
 		config.errorFn = cpp.Function.fromStaticFunction(errorFn);
 
+		trace(WrenInterpretResult.WREN_RESULT_RUNTIME_ERROR);
+
+		trace(Type.typeof(WrenInterpretResult.WREN_RESULT_RUNTIME_ERROR));
+
 		var vm:cpp.RawPointer<WrenVM> = Wren.NewVM(cpp.RawPointer.addressOf(config));
 
 		switch (Wren.Interpret(vm, "main", File.getContent('script.wren')))
