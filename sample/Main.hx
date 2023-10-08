@@ -40,7 +40,9 @@ class Main
 
 		var vm:cpp.RawPointer<WrenVM> = Wren.NewVM(cpp.RawPointer.addressOf(config));
 
-		switch (Wren.Interpret(vm, "main", File.getContent('script.wren')))
+		trace(cast(Wren.Interpret(vm, "main", File.getContent('script.wren')), Int));
+
+		/*switch (Wren.Interpret(vm, "main", File.getContent('script.wren')))
 		{
 			case WREN_RESULT_COMPILE_ERROR:
 				Sys.println('Compile Error!');
@@ -48,7 +50,7 @@ class Main
 				Sys.println('Runtime Error!');
 			case WREN_RESULT_SUCCESS:
 				Sys.println('Success!');
-		}
+		}*/
 
 		Wren.FreeVM(vm);
 		vm = null;
