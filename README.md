@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/github/repo-size/MAJigsaw77/hxwren) ![](https://badgen.net/github/open-issues/MAJigsaw77/hxwren) ![](https://badgen.net/badge/license/MIT/green)
 
-Haxe/hxcpp @:native bindings for [Wren](https://github.com/wren-lang/wren)
+Haxe/hxcpp @:native bindings for [Wren](https://github.com/wren-lang/wren).
 
 ### Installation
 
