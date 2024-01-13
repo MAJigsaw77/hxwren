@@ -72,7 +72,7 @@ typedef WrenLoadModuleCompleteFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, name
 extern class WrenLoadModuleResult
 {
 	@:native('WrenLoadModuleResult')
-	static function create():WrenLoadModuleResult;
+	static function alloc():WrenLoadModuleResult;
 
 	var source:cpp.ConstCharStar;
 	var onComplete:WrenLoadModuleCompleteFn;
@@ -135,7 +135,7 @@ typedef WrenErrorFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, type:WrenErrorTyp
 extern class WrenForeignClassMethods
 {
 	@:native('WrenForeignClassMethods')
-	static function create():WrenForeignClassMethods;
+	static function alloc():WrenForeignClassMethods;
 
 	// The callback invoked when the foreign object is created.
 	//
@@ -162,7 +162,7 @@ typedef WrenBindForeignClassFn = cpp.Callable<(vm:cpp.RawPointer<WrenVM>, module
 extern class WrenConfiguration
 {
 	@:native('WrenConfiguration')
-	static function create():WrenConfiguration;
+	static function alloc():WrenConfiguration;
 
 	// The callback Wren will use to allocate, reallocate, and deallocate memory.
 	//
