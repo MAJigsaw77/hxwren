@@ -19,6 +19,7 @@ jobs:
 
       - name: Compiling 
         run: |
-          haxelib git hxwren https://github.com/MAJigsaw77/hxwren.git ${{github.ref_name}} --quiet
+          haxelib install hxcpp --quiet
+          haxelib dev hxwren .
           cd sample
           haxe build.hxml
