@@ -104,6 +104,10 @@ extern enum abstract WrenErrorType(WrenErrorTypeImpl)
 	@:native('WREN_ERROR_STACK_TRACE')
 	var WREN_ERROR_STACK_TRACE;
 
+	@:from
+	static public inline function fromInt(i:Int):WrenErrorType
+		return cast i;
+
 	@:to extern public inline function toInt():Int
 		return untyped this;
 }
@@ -293,6 +297,10 @@ extern enum abstract WrenInterpretResult(WrenInterpretResultImpl)
 	@:native('WREN_RESULT_RUNTIME_ERROR')
 	var WREN_RESULT_RUNTIME_ERROR;
 
+	@:from
+	static public inline function fromInt(i:Int):WrenInterpretResult
+		return cast i;
+
 	@:to extern public inline function toInt():Int
 		return untyped this;
 }
@@ -332,6 +340,10 @@ extern enum abstract WrenType(WrenTypeImpl)
 	// The object is of a type that isn't accessible by the C API.
 	@:native('WREN_TYPE_UNKNOWN')
 	var WREN_TYPE_UNKNOWN;
+
+	@:from
+	static public inline function fromInt(i:Int):WrenType
+		return cast i;
 
 	@:to extern public inline function toInt():Int
 		return untyped this;
