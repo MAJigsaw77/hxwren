@@ -73,8 +73,7 @@ extern class WrenLoadModuleResult
 	/**
 	 * Allocates a new 'WrenLoadModuleResult' instance.
 	 */
-	@:native('WrenLoadModuleResult')
-	static function alloc():WrenLoadModuleResult;
+	function new():Void;
 
 	/**
 	 * The source code for the module, or NULL if not found.
@@ -162,8 +161,7 @@ extern class WrenForeignClassMethods
 	/**
 	 * Allocates a new 'WrenForeignClassMethods' instance.
 	 */
-	@:native('WrenForeignClassMethods')
-	static function alloc():WrenForeignClassMethods;
+	function new():Void;
 
 	/**
 	 * The callback invoked when the foreign object is created.
@@ -201,8 +199,7 @@ extern class WrenConfiguration
 	/**
 	 * Allocates a new 'WrenConfiguration' instance.
 	 */
-	@:native('WrenConfiguration')
-	static function alloc():WrenConfiguration;
+	function new():Void;
 
 	/**
 	 * The callback Wren will use to allocate, reallocate, and deallocate memory.
